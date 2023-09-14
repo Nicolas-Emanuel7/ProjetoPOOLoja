@@ -1,6 +1,7 @@
 import Entidades.*;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.*;
 
 import DAO.ConexaoPostgreSQL;
@@ -8,7 +9,7 @@ public class Main {
     
 
     Connection conexao = ConexaoPostgreSQL.conectar();
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException{
         
         Scanner scanner = new Scanner(System.in);
         int op1 = 1;
@@ -282,10 +283,10 @@ public class Main {
                                                     
                                                     switch(opSubmenuCliente3){
                                                         case 1:
-                                                            Menu.atualizarCliente();
+                                                            Menu.atualizarCliente(cliente);
                                                         break;
                                                         case 2:
-                                                            Menu.deletarCliente();
+                                                            Menu.deletarCliente(cliente);
                                                         break;
                                                         case 0:
                                                             System.out.println("Voltando...");
