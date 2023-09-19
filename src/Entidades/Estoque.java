@@ -1,17 +1,17 @@
 package Entidades;
 
-public class Tamanho {
+public class Estoque {
     private int idCalcado;
     private int tamanhoDisponivel;
     private int quantidadeEstoque;
 
-    public Tamanho(int idCalcado, int tamanhoDisponivel, int quantidadeEstoque){
+    public Estoque(int idCalcado, int tamanhoDisponivel, int quantidadeEstoque){
         this.idCalcado = idCalcado;
         this.tamanhoDisponivel = tamanhoDisponivel;
         this.quantidadeEstoque = quantidadeEstoque;
     }
 
-    public Tamanho(int tamanhoDisponivel, int quantidadeEstoque){
+    public Estoque(int tamanhoDisponivel, int quantidadeEstoque){
         this.tamanhoDisponivel = tamanhoDisponivel;
         this.quantidadeEstoque = quantidadeEstoque;
     }

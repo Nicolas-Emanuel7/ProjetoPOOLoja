@@ -5,23 +5,20 @@ public class Calcado {
     private int idGerente;
     private TipoCalcado tipoCalcado;
     private String modeloCalcado;
-    private int tamanhos;
     private double preco;
 
-    public Calcado(int idCalcado, int idGerente, TipoCalcado tipoCalcado, String modeloCalcado, int tamanhos, double preco){
+    public Calcado(int idCalcado, int idGerente, TipoCalcado tipoCalcado, String modeloCalcado, double preco){
         this.idCalcado = idCalcado;
         this.idGerente = idGerente;
         this.tipoCalcado = tipoCalcado;
         this.modeloCalcado = modeloCalcado;
-        this.tamanhos = tamanhos;
         this.preco = preco;
     }
 
-    public Calcado(int idGerente, TipoCalcado tipoCalcado, String modeloCalcado, int tamanhos, double preco){
+    public Calcado(int idGerente, TipoCalcado tipoCalcado, String modeloCalcado, double preco){
         this.idGerente = idGerente;
         this.tipoCalcado = tipoCalcado;
         this.modeloCalcado = modeloCalcado;
-        this.tamanhos = tamanhos;
         this.preco = preco;
     }
 
@@ -48,12 +45,6 @@ public class Calcado {
     }
     public void setModeloCalcado(String modeloCalcado) {
         this.modeloCalcado = modeloCalcado;
-    }
-    public int getTamanhos() {
-        return tamanhos;
-    }
-    public void setTamanhos(int tamanhos) {
-        this.tamanhos = tamanhos;
     }
     public double getPreco() {
         return preco;
