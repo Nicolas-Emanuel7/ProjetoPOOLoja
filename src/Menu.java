@@ -8,6 +8,7 @@ public class Menu {
 
     static ClienteServico clienteServico = new ClienteServico();
     static CalcadoServico calcadoServico = new CalcadoServico();
+    static UsuarioServico usuarioServico = new UsuarioServico();
     
     // OPÇÕES DO CLIENTE ///////////////////////////////////////////////////////////
     public static void cadastroCliente() throws SQLException{ // essa funciona
@@ -332,6 +333,131 @@ public class Menu {
         } catch (InputMismatchException e) {
             e.printStackTrace();
         } finally{
+            clearBuffer(entrada);
+        }
+    }
+
+    // OPCAO USER ////////////////////////////////////////////////////////////////
+
+    public static void cadastroUsuario(boolean cargo) throws SQLException{
+        Scanner entrada = new Scanner(System.in);
+
+        try{
+            System.out.println("Digite o seu Nome: ");
+            String nome = entrada.nextLine();
+            System.out.println("Digite o seu Login ");
+            String login = entrada.nextLine();
+            System.out.println("Digite a sua Senha:  ");
+            String senha = entrada.nextLine();
+
+            if(usuarioServico.verificarLogin(login) == true){
+                System.out.println("Login já cadastrado.");
+            }else{
+                usuarioServico.cadastrarUsuario(nome, login, senha, cargo);
+            }
+        }catch(InputMismatchException e){
+            e.printStackTrace();
+        }finally{
+            clearBuffer(entrada);
+        }
+    }
+
+    public static Usuario loginUsuario(boolean cargo) throws SQLException{
+        Scanner entrada = new Scanner(System.in);
+    
+        try{
+            System.out.println("Digite o seu login: ");
+            String login = entrada.nextLine();
+            System.out.println("Digite a sua senha: ");
+            String senha = entrada.nextLine();
+
+            if(usuarioServico.loginUsuario(login, senha, cargo) != null){
+                System.out.println("Login bem sucedido.");
+                return usuarioServico.loginUsuario(login, senha, cargo);
+            }else{
+                System.out.println("Login não sucedido.");
+                return null;
+            }
+        }catch(InputMismatchException e){
+            e.printStackTrace();
+        }finally{
+            clearBuffer(entrada);
+        }
+        return null;
+    }
+
+    public static void atualizarUsuario(Usuario usuario) throws SQLException{ // funciona, mas falta arrumar
+
+        Scanner entrada = new Scanner(System.in);
+        try{
+            if(usuario != null){
+                System.out.println(">>>Seus dados: "+usuario.toString());
+                System.out.println(">>>Deseja atualizar seus dados? (1)-Sim (2)-Não");
+                int opcao = entrada.nextInt();
+                if(opcao == 1){
+                    System.out.println(">>>Digite o novo nome do usuario: ");
+                    String novoNome = entrada.nextLine();
+                    System.out.println(">>>Digite o novo login do usuario: ");
+                    String novoLogin = entrada.nextLine();
+                    System.out.println(">>>Digite a nova senha do usuario: ");
+                    String novaSenha = entrada.nextLine();
+
+                    if(novoLogin != usuario.getLoginUsuario()){
+                        if(usuarioServico.verificarLogin(novoLogin) == true){
+                            System.out.println("Login já cadastrado.");
+                        }else{
+                            usuario.setNomeUsuario(novoNome);
+                            usuario.setLoginUsuario(novoLogin);
+                            usuario.setSenhaUsuario(novaSenha);
+                            usuarioServico.atualizarUsuario(usuario);
+                        }
+                    }else{
+                        usuario.setNomeUsuario(novoNome);
+                        usuario.setLoginUsuario(novoLogin);
+                        usuario.setSenhaUsuario(novaSenha);
+                        usuarioServico.atualizarUsuario(usuario);
+                    }
+                }
+                else{
+                    System.out.println(">>>Operação cancelada.");
+                }
+            }
+            else{
+                System.out.println(">>>Usuário não encontrado.\n");
+            }
+        }
+        catch (InputMismatchException e){
+            e.printStackTrace();
+        } finally{
+            clearBuffer(entrada);
+        }
+    }
+
+    public static void listarUsuariosPorCargo(boolean cargo) throws SQLException{
+        System.out.println(usuarioServico.mostrarUsuariosPorCargo(cargo));
+    }
+
+    public static void deletarUsuario(Usuario usuario) throws SQLException{
+        Scanner entrada = new Scanner(System.in);
+        try{
+            System.out.println(">>>Tem certeza que deseja apagar sua conta? (1)-Sim (0)-Não");
+            int opcao = entrada.nextInt();
+
+            if(opcao == 1){
+                System.out.println(">>>Para confirmar, digite sua senha: ");
+                String senhaApagar = entrada.nextLine();
+
+                if(senhaApagar == usuario.getSenhaUsuario()){
+                    usuarioServico.apagarUsuario(usuario.getIdUsuario());
+                } else{
+                    System.out.println(">>>Senha incorreta.");
+                }
+            } else{
+                System.out.println(">>>Operação cancelada.");
+            }
+        }catch(InputMismatchException e){
+            e.printStackTrace();
+        }finally{
             clearBuffer(entrada);
         }
     }
