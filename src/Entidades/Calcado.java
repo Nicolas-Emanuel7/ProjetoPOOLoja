@@ -52,4 +52,13 @@ public class Calcado {
     public void setPreco(double preco) {
         this.preco = preco;
     }
+
+    public String toString(){
+        String saida = "";
+        saida += "ID: "+this.idCalcado;
+        saida += "\tTipo: "+this.tipoCalcado;
+        saida += "\tModelo: "+this.modeloCalcado;
+        saida += "Preço: "+this.preco+"\n";
+        return saida;
+    }
 }

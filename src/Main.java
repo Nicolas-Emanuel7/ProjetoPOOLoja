@@ -1,23 +1,28 @@
 import Entidades.*;
+import DAO.*;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 
 import DAO.ConexaoPostgreSQL;
 
 public class Main {
 
-    Connection conexao = ConexaoPostgreSQL.conectar();
-
     public static void main(String[] args) throws SQLException {
+
+        Connection conexao = ConexaoPostgreSQL.conectar();
+        new CalcadoDao(conexao);
+        new EstoqueDao(conexao);
+        new PedidoDao(conexao);
+        new UsuarioDao(conexao);
+        new ItemPedidoDao(conexao);
 
         Scanner scanner = new Scanner(System.in);
         int op1 = 1;
 
         do {
             System.out.println("\nBem vindo à loja Marinho!");
-            System.out.println("Que tipo de usuário você é?\n");
+            System.out.println(">>>Que tipo de usuário você é?\n");
             System.out.println("1- GERENTE");
             System.out.println("2- CLIENTE\n");
             System.out.println("0- SAIR DO SISTEMA\n");
@@ -39,7 +44,7 @@ public class Main {
                         switch (opLogin) {
 
                             case 1:
-                                Gerente gerente = Menu.loginGerente();
+                                Usuario gerente = Menu.loginUsuario(true);
                                 int opMenuGerente = 1;
                                 if (gerente != null) {
                                     do {
@@ -58,28 +63,28 @@ public class Main {
 
                                                     switch (opSubmenuGerente1) {
                                                         case 1:
-                                                            Menu.criarProduto();
+                                                            Menu.criarProduto(gerente);
                                                             break;
                                                         case 2:
                                                             Menu.atualizarEstoque();
                                                             break;
                                                         case 3:
-                                                            Menu.listarProdutos();
+                                                            Menu.listarProduto();
                                                             break;
                                                         case 4:
                                                             Menu.buscarProduto();
                                                             break;
                                                         case 5:
-                                                            Menu.atualizarProduto();
+                                                            Menu.atualizarProduto(gerente);
                                                             break;
                                                         case 6:
                                                             Menu.deletarProduto();
                                                             break;
                                                         case 0:
-                                                            System.out.println("Voltando...");
+                                                            System.out.println(">>>Voltando...");
                                                             break;
                                                         default:
-                                                            System.out.println("Opção inválida.");
+                                                            System.out.println(">>>Opção inválida.");
                                                             break;
                                                     }
 
@@ -96,19 +101,16 @@ public class Main {
 
                                                     switch (opSubmenuGerente2) {
                                                         case 1:
-                                                            Menu.listarClientes();
+                                                            Menu.listarUsuariosPorCargo(false);
                                                             break;
                                                         case 2:
-                                                            Menu.buscarCliente();
-                                                            break;
-                                                        case 3:
-                                                            // Menu.deletarCliente();
+                                                            Menu.deletarUsuarioPorId(false);;
                                                             break;
                                                         case 0:
-                                                            System.out.println("Voltando...");
+                                                            System.out.println(">>>Voltando...");
                                                             break;
                                                         default:
-                                                            System.out.println("Opção inválida.");
+                                                            System.out.println(">>>Opção inválida.");
                                                             break;
                                                     }
 
@@ -128,16 +130,16 @@ public class Main {
                                                             Menu.listarPedidos();
                                                             break;
                                                         case 2:
-                                                            Menu.buscarPedidoPorCliente();
+                                                            Menu.buscarPedidosPorCliente();
                                                             break;
                                                         case 3:
                                                             Menu.atualizarPedidoStatus();
                                                             break;
                                                         case 0:
-                                                            System.out.println("Voltando...");
+                                                            System.out.println(">>>Voltando...");
                                                             break;
                                                         default:
-                                                            System.out.println("Opção inválida.");
+                                                            System.out.println(">>>Opção inválida.");
                                                             break;
                                                     }
 
@@ -154,19 +156,19 @@ public class Main {
 
                                                     switch (opSubmenuGerente4) {
                                                         case 1:
-                                                            Menu.atualizarGerente();
+                                                            Menu.atualizarUsuario(gerente);
                                                             break;
                                                         case 2:
-                                                            Menu.listarGerentes();
+                                                            Menu.listarUsuariosPorCargo(true);
                                                             break;
                                                         case 3:
-                                                            Menu.deletarGerente();
+                                                            Menu.deletarUsuario(gerente);
                                                             break;
                                                         case 0:
-                                                            System.out.println("Voltando...");
+                                                            System.out.println(">>>Voltando...");
                                                             break;
                                                         default:
-                                                            System.out.println("Opção inválida.");
+                                                            System.out.println(">>>Opção inválida.");
                                                             break;
                                                     }
 
@@ -174,11 +176,11 @@ public class Main {
                                                 break;
 
                                             case 0:
-                                                System.out.println("Voltando...");
+                                                System.out.println(">>>Voltando...");
                                                 break;
 
                                             default:
-                                                System.out.println("Opção inválida.");
+                                                System.out.println(">>>Opção inválida.");
                                                 break;
                                         }
                                     } while (opMenuGerente != 0);
@@ -186,15 +188,15 @@ public class Main {
                                 break;
 
                             case 2:
-                                Menu.cadastroGerente();
+                                Menu.cadastroUsuario(true);
                                 break;
 
                             case 0:
-                                System.out.println("Voltando...");
+                                System.out.println(">>>Voltando...");
                                 break;
 
                             default:
-                                System.out.println("Opção inválida.");
+                                System.out.println(">>>Opção inválida.");
                                 break;
                         }
                     }
@@ -212,7 +214,7 @@ public class Main {
 
                             case 1:
                                 // Menu.loginCliente();
-                                Cliente cliente = Menu.loginCliente();
+                                Usuario cliente = Menu.loginUsuario(false);
                                 int opMenuCliente = 1;
                                 if (cliente != null) {
                                     do {
@@ -231,16 +233,16 @@ public class Main {
 
                                                     switch (opSubmenuCliente1) {
                                                         case 1:
-                                                            Menu.listarProdutos();
+                                                            Menu.listarProduto();
                                                             break;
                                                         case 2:
                                                             Menu.buscarProduto();
                                                             break;
                                                         case 0:
-                                                            System.out.println("Voltando...");
+                                                            System.out.println(">>>Voltando...");
                                                             break;
                                                         default:
-                                                            System.out.println("Opção inválida.");
+                                                            System.out.println(">>>Opção inválida.");
                                                             break;
                                                     }
                                                 } while (opSubmenuCliente1 != 0);
@@ -256,19 +258,19 @@ public class Main {
 
                                                     switch (opSubmenuCliente2) {
                                                         case 1:
-                                                            Menu.criarPedido();
+                                                            Menu.criarPedido(cliente);
                                                             break;
                                                         case 2:
-                                                            Menu.listarPedidosPorCliente();
+                                                            Menu.listarPedidosPorCliente(cliente);
                                                             break;
                                                         case 3:
-                                                            Menu.cancelarPedido();
+                                                            Menu.cancelarPedido(cliente);
                                                             break;
                                                         case 0:
-                                                            System.out.println("Voltando...");
+                                                            System.out.println(">>>Voltando...");
                                                             break;
                                                         default:
-                                                            System.out.println("Opção inválida.");
+                                                            System.out.println(">>>Opção inválida.");
                                                             break;
                                                     }
                                                 } while (opSubmenuCliente2 != 0);
@@ -284,27 +286,27 @@ public class Main {
 
                                                     switch (opSubmenuCliente3) {
                                                         case 1:
-                                                            Menu.atualizarCliente(cliente);
+                                                            Menu.atualizarUsuario(cliente);
                                                             break;
                                                         case 2:
-                                                            Menu.deletarCliente(cliente);
+                                                            Menu.deletarUsuario(cliente);
                                                             break;
                                                         case 0:
-                                                            System.out.println("Voltando...");
+                                                            System.out.println(">>>Voltando...");
                                                             break;
                                                         default:
-                                                            System.out.println("Opção inválida.");
+                                                            System.out.println(">>>Opção inválida.");
                                                             break;
                                                     }
                                                 } while (opSubmenuCliente3 != 0);
                                                 break;
 
                                             case 0:
-                                                System.out.println("Voltando...");
+                                                System.out.println(">>>Voltando...");
                                                 break;
 
                                             default:
-                                                System.out.println("Opção inválida.");
+                                                System.out.println(">>>Opção inválida.");
                                                 break;
                                         }
                                     } while (opMenuCliente != 0);
@@ -313,15 +315,15 @@ public class Main {
                                 break;
 
                             case 2:
-                                Menu.cadastroCliente();
+                                Menu.cadastroUsuario(false);
                                 break;
 
                             case 0:
-                                System.out.println("Voltando...");
+                                System.out.println(">>>Voltando...");
                                 break;
 
                             default:
-                                System.out.println("Opção inválida.");
+                                System.out.println(">>>Opção inválida.");
                                 break;
                         }
                     }
@@ -329,12 +331,12 @@ public class Main {
 
                 // ENCERRAR O PROGRAMA ////////////////////////
                 case 0:
-                    System.out.println("Encerrando o programa...");
+                    System.out.println(">>>Encerrando o programa...");
                     break;
 
                 // OPÇÃO INVÁLIDA ////////////////////////////
                 default:
-                    System.out.println("Opção inválida.");
+                    System.out.println(">>>Opção inválida.");
                     break;
             }
         } while (op1 != 0);
@@ -342,7 +344,7 @@ public class Main {
 
     // OPÇÕES DE LOGIN //
     public static void menuLogin() {
-        System.out.println("\nJá possui cadastro?");
+        System.out.println("\n>>>Já possui cadastro?");
         System.out.println("(1)- LOGIN");
         System.out.println("(2)- CADASTRO\n");
         System.out.println("(0)- VOLTAR\n");
@@ -370,8 +372,7 @@ public class Main {
 
     public static void menuClientesGerente() {
         System.out.println("\n(1)- LISTAR CLIENTES CADASTRADOS");
-        System.out.println("(2)- BUSCAR CLIENTE ESPECÍFICO");
-        System.out.println("(3)- DELETAR CLIENTE DO SISTEMA");
+        System.out.println("(2)- DELETAR CLIENTE DO SISTEMA");
         System.out.println("(0)- VOLTAR\n");
     }
 

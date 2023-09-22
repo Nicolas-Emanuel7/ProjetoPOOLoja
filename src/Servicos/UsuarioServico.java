@@ -11,7 +11,7 @@ public class UsuarioServico {
     public void cadastrarUsuario(String nome, String login, String senha, boolean gerencia)throws SQLException{
         try{
             Usuario novoUsuario = new Usuario(nome, login, senha, gerencia);
-            System.out.println("Cadastro bem sucedido");
+            System.out.println(">>>Cadastro bem sucedido");
             UsuarioDao.inserirUsuario(novoUsuario);
         }catch(InputMismatchException e){
             e.printStackTrace();
@@ -30,10 +30,10 @@ public class UsuarioServico {
         try{
             if(UsuarioDao.listarUsuariosPorCargo(gerencia).isEmpty()){
                 if(gerencia == true){
-                    System.out.println("Não há gerentes cadastrados.");
+                    System.out.println(">>>Não há gerentes cadastrados.");
                     return null;
                 }else{
-                    System.out.println("Não há clientes cadastrados.");
+                    System.out.println(">>>Não há clientes cadastrados.");
                     return null;
                 }
             }else{
@@ -67,10 +67,10 @@ public class UsuarioServico {
         try{
             UsuarioDao.atualizarUsuario(usuarioAtualizado);
             if(usuarioAtualizado.isGerencia() == true){
-                System.out.println("Dados do Gerente atualizados.");
+                System.out.println(">>>Dados do Gerente atualizados.");
                 System.out.println(usuarioAtualizado.toString());
             }else{
-                System.out.println("Dados do Cliente atualizados.");
+                System.out.println(">>>Dados do Cliente atualizados.");
                 System.out.println(usuarioAtualizado.toString());
             }
         }catch(InputMismatchException e){
@@ -80,19 +80,19 @@ public class UsuarioServico {
 
     public void apagarUsuario(int idUsuario) throws SQLException{
         if(idUsuario == 0){
-            System.out.println("Operação cancelada.");
+            System.out.println(">>>Operação cancelada.");
         }else{
             UsuarioDao.excluirUsuario(idUsuario);
-            System.out.println("Operação concluída.");
+            System.out.println(">>>Operação concluída.");
         }
     }
 
     public String mostrarUsuariosPorCargo(boolean gerencia) throws SQLException{
         String usuariosLista = "";
         if(gerencia == true){
-            usuariosLista += "Gerentes cadastrados no sistema:\n";
+            usuariosLista += ">>>Gerentes cadastrados no sistema:\n";
         }else{
-            usuariosLista += "Clientes cadastrados no sistema:\n";
+            usuariosLista += ">>>Clientes cadastrados no sistema:\n";
         }
         for(Usuario usuario : UsuarioDao.listarUsuariosPorCargo(gerencia)){
             usuariosLista += usuario.toString();

@@ -3,7 +3,6 @@ package Entidades;
 public class Usuario {
     
     private int idUsuario;
-    
     private String nomeUsuario;
     private String loginUsuario;
     private String senhaUsuario;

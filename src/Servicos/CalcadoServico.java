@@ -10,7 +10,7 @@ public class CalcadoServico {
     public void addCalcado(TipoCalcado tipoCalcado, int idGerente, String modeloCalcado, double preco) throws SQLException{
         try{
             Calcado novoCalcado = new Calcado(idGerente, tipoCalcado, modeloCalcado, preco);
-            System.out.println("Calçado adicionado ao sistema.");
+            System.out.println(">>>Calçado adicionado ao sistema.");
             CalcadoDao.inserirCalcado(novoCalcado);
         } catch(InputMismatchException e){
             e.printStackTrace();
@@ -20,7 +20,7 @@ public class CalcadoServico {
     public void addTamanhosDoCalcado(int idCalcado, int tamanho, int quantidade, int tamanhosQuantidade) throws SQLException{
         try{
             Estoque tamanhoDisponivel = new Estoque(idCalcado, tamanho, quantidade);
-            System.out.println("Estoque recebido com sucesso");
+            System.out.println(">>>Estoque recebido com sucesso");
             EstoqueDao.inserirEstoque(tamanhoDisponivel);
         } catch(InputMismatchException e){
             e.printStackTrace();
@@ -49,7 +49,7 @@ public class CalcadoServico {
         try{
             CalcadoDao.atualizarCalcado(calcadoAtualizado, idGerente);
             EstoqueDao.excluirEstoque(calcadoAtualizado.getIdCalcado());
-            System.out.println("Produto atualizado com sucesso.");
+            System.out.println(">>>Produto atualizado com sucesso.");
             System.out.println(calcadoAtualizado.toString());
             
         } catch(InputMismatchException e){
@@ -64,7 +64,7 @@ public class CalcadoServico {
                 novoEstoque += calcadoAumentarEstoque.getQuantidadeEstoque();
                 calcadoAumentarEstoque.setQuantidadeEstoque(novoEstoque);
                 EstoqueDao.atualizarEstoque(calcadoAumentarEstoque);
-                System.out.println("Estoque atualizado com suceso.");
+                System.out.println(">>>Estoque atualizado com suceso.");
             }else if(calcadoAumentarEstoque == null){
                 addTamanhosDoCalcado(idBusca, tamanho, novoEstoque, quantidadeTamanhos);
             }
@@ -105,10 +105,10 @@ public class CalcadoServico {
 
     public void apagarCalcado(int idCalcado) throws SQLException{
         if(idCalcado == 0){
-            System.out.println("Operação cancelada.");
+            System.out.println(">>>Operação cancelada.");
         } else{
             CalcadoDao.excluirCalcado(idCalcado);
-            System.out.println("Operação concluída");
+            System.out.println(">>>Operação concluída");
         }
     }
 
@@ -144,28 +144,22 @@ public class CalcadoServico {
 
     public String mostrarCalcadoIndividual(Calcado calcado) throws SQLException{
         String calcadoIndividual = "";
-        calcadoIndividual += "ID: "+calcado.getIdCalcado();
-        calcadoIndividual += "\tTipo: "+tipoCalcadoTexto(calcado.getTipoCalcado());
-        calcadoIndividual += "\tModelo: "+calcado.getModeloCalcado();
-        calcadoIndividual += "\tPreço: R$ "+calcado.getPreco();
-        calcadoIndividual += "\n"+mostrarTamanhosPorCalcado(calcado)+"\n";
+        calcadoIndividual += calcado.toString();
+        calcadoIndividual += mostrarTamanhosPorCalcado(calcado)+"\n";
         return calcadoIndividual;
     }
 
     public String mostrarCalcados() throws SQLException{
         String calcadosLista = "";
         for(Calcado calcado : CalcadoDao.listarTodosCalcados()){
-            calcadosLista += "ID: "+calcado.getIdCalcado();
-            calcadosLista += "\tTipo: "+tipoCalcadoTexto(calcado.getTipoCalcado());
-            calcadosLista += "\tModelo: "+calcado.getModeloCalcado();
-            calcadosLista += "\tPreço: R$ "+calcado.getPreco();
-            calcadosLista += "\n"+mostrarTamanhosPorCalcado(calcado)+"\n";
+            calcadosLista += calcado.toString();
+            calcadosLista += mostrarTamanhosPorCalcado(calcado)+"\n";
         }
         return calcadosLista;
     }
 
     public String mostrarTamanhosPorCalcado(Calcado calcado) throws SQLException{
-        String tamanhosPorCalcado = "Tamanhos disponíveis: ";
+        String tamanhosPorCalcado = ">>>Tamanhos disponíveis: ";
         for(Estoque tamanho : EstoqueDao.listarTamanhosDisponiveis(calcado.getIdCalcado())){
             tamanhosPorCalcado += "T "+tamanho.getTamanhoDisponivel()+"("+tamanho.getQuantidadeEstoque()+")   ";
         }

@@ -75,7 +75,7 @@ public class UsuarioDao {
 
     public static List<Usuario> listarUsuariosPorCargo(boolean gerencia) throws SQLException{
         List<Usuario> Usuarios = new ArrayList<>();
-        String sql = "SELECT * FROM usuario WHERE = ?;";
+        String sql = "SELECT * FROM usuario WHERE gerencia = ?;";
 
         try(PreparedStatement preparedStatement = conexaoUsuario.prepareStatement(sql)){
             preparedStatement.setBoolean(1, gerencia);

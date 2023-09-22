@@ -2,18 +2,18 @@ package Entidades;
 
 public class Pedido {
     private int idPedido;
-    private Cliente cliente;
+    private Usuario cliente;
     private StatusPedido status;
     private double valorFinal;
 
-    public Pedido(int idPedido, Cliente cliente, StatusPedido status, double valorFinal){
+    public Pedido(int idPedido, Usuario cliente, StatusPedido status, double valorFinal){
         this.idPedido = idPedido;
         this.cliente = cliente;
         this.status = status;
         this.valorFinal = valorFinal;
     }
 
-    public Pedido(Cliente cliente, StatusPedido status, double valorFinal){
+    public Pedido(Usuario cliente, StatusPedido status, double valorFinal){
         this.cliente = cliente;
         this.status = status;
         this.valorFinal = valorFinal;
@@ -31,10 +31,10 @@ public class Pedido {
     public int getIdPedido(){
         return idPedido;
     }
-    public void setCliente(Cliente cliente){
+    public void setCliente(Usuario cliente){
         this.cliente = cliente;
     }
-    public Cliente getCliente(){
+    public Usuario getCliente(){
         return cliente;
     }
     public void setStatus(StatusPedido status){
@@ -54,11 +54,10 @@ public class Pedido {
     }
 
     public String toString(){
-        String str = "ID: "+this.idPedido;
-        str += "\tCliente: "+this.cliente.getNome();
-        str += "\tValor: "+this.valorFinal;
-        str += "\tStatus: "+this.status+"\n";
-
-        return str;
+        String saida = "ID: "+this.idPedido;
+        saida += "\tCliente: "+this.cliente.getNomeUsuario();
+        saida += "\tValor: "+this.valorFinal;
+        saida += "\tStatus: "+this.status+"\n";
+        return saida;
     }
 }
