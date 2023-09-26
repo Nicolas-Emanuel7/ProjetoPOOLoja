@@ -2,6 +2,7 @@ import java.sql.*;
 import java.util.*;
 
 import Entidades.*;
+import Excecoes.DadosInvalidosException;
 import Servicos.*;
 
 public class Menu {
@@ -12,7 +13,7 @@ public class Menu {
     
     // OPÇÕES DE USUÁRIO ////////////////////////////////////////////////////////////////
 
-    public static void cadastroUsuario(boolean cargo) throws SQLException{
+    public static void cadastroUsuario(boolean cargo) throws SQLException, DadosInvalidosException{
         Scanner entrada = new Scanner(System.in);
 
         try{
@@ -22,11 +23,13 @@ public class Menu {
             String login = entrada.nextLine();
             System.out.println(">>>Digite a sua Senha:  ");
             String senha = entrada.nextLine();
+            System.out.println(">>>Digite seu endereço: ");
+            String endereco = entrada.nextLine();
 
             if(usuarioServico.verificarLogin(login) == true){
                 System.out.println(">>>Login já cadastrado.");
             }else{
-                usuarioServico.cadastrarUsuario(nome, login, senha, cargo);
+                usuarioServico.cadastrarUsuario(nome, login, senha, endereco, cargo);
             }
         }catch(InputMismatchException e){
             e.printStackTrace();
@@ -35,7 +38,7 @@ public class Menu {
         }
     }
 
-    public static Usuario loginUsuario(boolean cargo) throws SQLException{
+    public static Usuario loginUsuario(boolean cargo) throws SQLException, DadosInvalidosException{
         Scanner entrada = new Scanner(System.in);
     
         try{
@@ -74,6 +77,8 @@ public class Menu {
                     String novoLogin = entrada.nextLine();
                     System.out.println(">>>Digite a nova senha do usuario: ");
                     String novaSenha = entrada.nextLine();
+                    System.out.println(">>>Digite o seu novo endereco: ");
+                    String novoEndereco = entrada.nextLine();
 
                     if(novoLogin != usuario.getLoginUsuario()){
                         if(usuarioServico.verificarLogin(novoLogin) == true){
@@ -82,12 +87,14 @@ public class Menu {
                             usuario.setNomeUsuario(novoNome);
                             usuario.setLoginUsuario(novoLogin);
                             usuario.setSenhaUsuario(novaSenha);
+                            usuario.setEndereco(novoEndereco);
                             usuarioServico.atualizarUsuario(usuario);
                         }
                     }else{
                         usuario.setNomeUsuario(novoNome);
                         usuario.setLoginUsuario(novoLogin);
                         usuario.setSenhaUsuario(novaSenha);
+                        usuario.setEndereco(novoEndereco);
                         usuarioServico.atualizarUsuario(usuario);
                     }
                 }
@@ -106,7 +113,7 @@ public class Menu {
         }
     }
 
-    public static void listarUsuariosPorCargo(boolean cargo) throws SQLException{
+    public static void listarUsuariosPorCargo(boolean cargo) throws SQLException, DadosInvalidosException{
         System.out.println(usuarioServico.mostrarUsuariosPorCargo(cargo));
     }
 
@@ -135,7 +142,7 @@ public class Menu {
         }
     }
 
-    public static void deletarUsuarioPorId(boolean cargo) throws SQLException{
+    public static void deletarUsuarioPorId(boolean cargo) throws SQLException, DadosInvalidosException{
         Scanner entrada = new Scanner(System.in);
         try{
             listarUsuariosPorCargo(cargo);
@@ -161,7 +168,7 @@ public class Menu {
 
     // OPÇÕES DE PEDIDO ///////////////////////////////////////////////////////////////////////////
 
-    public static void criarPedido(Usuario cliente) throws SQLException{ // funciona, mas falta arrumar
+    public static void criarPedido(Usuario cliente) throws SQLException, DadosInvalidosException{ // funciona, mas falta arrumar
 
         Scanner entrada = new Scanner(System.in);
         try{
@@ -217,7 +224,7 @@ public class Menu {
         }
     }
 
-    public static void cancelarPedido(Usuario cliente) throws SQLException{ // funciona
+    public static void cancelarPedido(Usuario cliente) throws SQLException, DadosInvalidosException{ // funciona
         
         Scanner entrada = new Scanner(System.in);
         try{
@@ -241,11 +248,11 @@ public class Menu {
         }
     }
 
-    public static void listarPedidosPorCliente(Usuario cliente) throws InputMismatchException, SQLException{ // funciona
+    public static void listarPedidosPorCliente(Usuario cliente) throws InputMismatchException, SQLException, DadosInvalidosException{ // funciona
         System.out.println(pedidoServico.getPedidosPorCLiente(cliente.getIdUsuario())+"\n");
     }
 
-    public static void buscarPedidosPorCliente() throws SQLException{ // funciona
+    public static void buscarPedidosPorCliente() throws SQLException, DadosInvalidosException{ // funciona
         
         Scanner entrada = new Scanner(System.in);
         
@@ -263,7 +270,7 @@ public class Menu {
         }
     }
 
-    public static void atualizarPedidoStatus() throws SQLException{ // não testei
+    public static void atualizarPedidoStatus() throws SQLException, DadosInvalidosException{ // não testei
 
         Scanner entrada = new Scanner(System.in);
 
@@ -281,13 +288,13 @@ public class Menu {
         }
     }
 
-    public static void listarPedidos() throws InputMismatchException, SQLException{ // funciona
+    public static void listarPedidos() throws InputMismatchException, SQLException, DadosInvalidosException{ // funciona
         System.out.println(pedidoServico.mostrarPedidos());
     }
 
     // OPÇÕES DE PRODUTO /////////////////////////////////////////////////////////////////////////
 
-    public static void criarProduto(Usuario gerente) throws SQLException{
+    public static void criarProduto(Usuario gerente) throws SQLException, DadosInvalidosException{
 
         Scanner entrada = new Scanner(System.in);
 

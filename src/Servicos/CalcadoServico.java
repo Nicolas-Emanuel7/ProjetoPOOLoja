@@ -4,10 +4,11 @@ import java.util.*;
 import java.sql.*;
 
 import Entidades.*;
+import Excecoes.DadosInvalidosException;
 import DAO.*;
 
 public class CalcadoServico {
-    public void addCalcado(TipoCalcado tipoCalcado, int idGerente, String modeloCalcado, double preco) throws SQLException{
+    public void addCalcado(TipoCalcado tipoCalcado, int idGerente, String modeloCalcado, double preco) throws SQLException, DadosInvalidosException{
         try{
             Calcado novoCalcado = new Calcado(idGerente, tipoCalcado, modeloCalcado, preco);
             System.out.println(">>>Calçado adicionado ao sistema.");
@@ -33,15 +34,6 @@ public class CalcadoServico {
             return calcadoSolicitado;
         }else{
             return null;
-        }
-    }
-
-    public double getPrecoPorId(int idBusca) throws SQLException{
-        Calcado calcadoSolicitado = CalcadoDao.buscarCalcadoPorId(idBusca);
-        if(calcadoSolicitado != null){
-            return calcadoSolicitado.getPreco();
-        }else{
-            return 0;
         }
     }
 
@@ -112,14 +104,6 @@ public class CalcadoServico {
         }
     }
 
-    public List <Calcado> getTodosCalcados() throws SQLException{
-        return CalcadoDao.listarTodosCalcados();
-    }
-
-    public List <Calcado> getCalcadosPorTipo(int tipoCalcado) throws SQLException{
-        return CalcadoDao.listarCalcadoPorTipo(tipoCalcado);
-    }
-
     public String listarCalcadosPorTipo(int tipoCalcado) throws SQLException{
         String listarCalcadosTipo = "";
         for(Calcado calcado : CalcadoDao.listarCalcadoPorTipo(tipoCalcado)){
@@ -171,36 +155,6 @@ public class CalcadoServico {
             tiposCalcados   += "5-Sandália     6-Sapatinha     7-Sapato           8-Tênis\n";
 
         return tiposCalcados;
-    }
-
-    public static String tipoCalcadoTexto(TipoCalcado tipoCalcado){
-        String tipo = "";
-        if(tipoCalcado == TipoCalcado.BOTA){
-            tipo += "Bota";
-            return tipo;
-        } else if(tipoCalcado == TipoCalcado.CHUTEIRA){
-            tipo += "Chuteira";
-            return tipo;
-        } else if(tipoCalcado == TipoCalcado.RASTEIRINHA){
-            tipo += "Rasteirinha";
-            return tipo;
-        } else if(tipoCalcado == TipoCalcado.SALTO){
-            tipo += "Salto";
-            return tipo;
-        } else if(tipoCalcado == TipoCalcado.SANDALIA){
-            tipo += "Sandália";
-            return tipo;
-        } else if(tipoCalcado == TipoCalcado.SAPATILHA){
-            tipo += "Sapatilha";
-            return tipo;
-        } else if(tipoCalcado == TipoCalcado.SAPATO){
-            tipo += "Sapato";
-            return tipo;
-        } else if(tipoCalcado == TipoCalcado.TENIS){
-            tipo += "Tênis";
-            return tipo;
-        }
-        return tipo;
     }
 
     public static int tipoCalcadoNumero(TipoCalcado tipoCalcado){

@@ -56,6 +56,7 @@ public class Pedido {
     public String toString(){
         String saida = "ID: "+this.idPedido;
         saida += "\tCliente: "+this.cliente.getNomeUsuario();
+        saida += "\tEndereço de destino: "+this.cliente.getEndereco();
         saida += "\tValor: "+this.valorFinal;
         saida += "\tStatus: "+this.status+"\n";
         return saida;

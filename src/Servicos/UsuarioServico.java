@@ -3,14 +3,16 @@ package Servicos;
 
 import DAO.*;
 import Entidades.*;
+import Excecoes.DadosInvalidosException;
+
 import java.sql.*;
 import java.util.*;
 
 public class UsuarioServico {
     
-    public void cadastrarUsuario(String nome, String login, String senha, boolean gerencia)throws SQLException{
+    public void cadastrarUsuario(String nome, String login, String senha, String endereco, boolean gerencia)throws SQLException, DadosInvalidosException{
         try{
-            Usuario novoUsuario = new Usuario(nome, login, senha, gerencia);
+            Usuario novoUsuario = new Usuario(nome, login, senha, endereco, gerencia);
             System.out.println(">>>Cadastro bem sucedido");
             UsuarioDao.inserirUsuario(novoUsuario);
         }catch(InputMismatchException e){
@@ -26,7 +28,7 @@ public class UsuarioServico {
         }
     }
 
-    public Usuario loginUsuario(String login, String senha, boolean gerencia)throws SQLException{
+    public Usuario loginUsuario(String login, String senha, boolean gerencia)throws SQLException, DadosInvalidosException{
         try{
             if(UsuarioDao.listarUsuariosPorCargo(gerencia).isEmpty()){
                 if(gerencia == true){
@@ -50,11 +52,7 @@ public class UsuarioServico {
         return null;
     }
 
-    public List<Usuario> getUsuariosPorCargo(boolean gerencia) throws SQLException{
-        return UsuarioDao.listarUsuariosPorCargo(gerencia);
-    }
-
-    public Usuario getUsuarioPorId(int idBusca)throws SQLException{
+    public Usuario getUsuarioPorId(int idBusca)throws SQLException, DadosInvalidosException{
         Usuario usuarioSolicitado = UsuarioDao.buscarUsuarioPorId(idBusca);
         if(usuarioSolicitado != null){
             return usuarioSolicitado;
@@ -87,7 +85,7 @@ public class UsuarioServico {
         }
     }
 
-    public String mostrarUsuariosPorCargo(boolean gerencia) throws SQLException{
+    public String mostrarUsuariosPorCargo(boolean gerencia) throws SQLException, DadosInvalidosException{
         String usuariosLista = "";
         if(gerencia == true){
             usuariosLista += ">>>Gerentes cadastrados no sistema:\n";

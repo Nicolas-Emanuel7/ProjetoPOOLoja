@@ -4,6 +4,7 @@ import java.util.*;
 import java.sql.*;
 
 import Entidades.*;
+import Excecoes.DadosInvalidosException;
 import DAO.*;
 
 public class PedidoServico {
@@ -18,6 +19,7 @@ public class PedidoServico {
         try {
             Carrinho.clear();
             Pedido novoPedido = new Pedido(clienteEscolhido, status, valorFinal); // criando o novo pedido
+            PedidoDao.inserirPedido(novoPedido);
             
             return novoPedido;
         } catch (InputMismatchException e) {
@@ -27,7 +29,7 @@ public class PedidoServico {
 
     }
 
-    public List<ItemDePedido> addItemAoPedido(Pedido pedido, int quantidade, Calcado calcadoEscolhido, int tamanho) throws SQLException{
+    public List<ItemDePedido> addItemAoPedido(Pedido pedido, int quantidade, Calcado calcadoEscolhido, int tamanho) throws SQLException, DadosInvalidosException{
 
         try{
             if(calcadoEscolhido != null){
@@ -41,10 +43,10 @@ public class PedidoServico {
                 System.out.println(">>>Preço final da compra: R$ "+calcularTotalPedido(Carrinho)+"\n");
                 
                 pedido.setValorFinal(calcularTotalPedido(Carrinho));
-                System.out.println(pedido);
-                PedidoDao.inserirPedido(pedido);
                 
-                return Carrinho; // eu n sei como esse return vai ficar, mas sla
+                int idPedido = PedidoDao.listarTodosPedidos().size(); // isso tá sendo utilizado para pegar o ID do último pedido criado
+                PedidoDao.atualizarValorFinal(idPedido, pedido);
+                return Carrinho; 
             }
         } catch(InputMismatchException e){
             e.printStackTrace();
@@ -68,7 +70,7 @@ public class PedidoServico {
         return resultado;
     }
 
-    public String getPedidosPorCLiente(int idCliente) throws InputMismatchException, SQLException{
+    public String getPedidosPorCLiente(int idCliente) throws InputMismatchException, SQLException, DadosInvalidosException{
         String pedidosPorCliente = "";
 
         for(Pedido pedido : PedidoDao.buscarPedidosPorCliente(idCliente)){
@@ -77,7 +79,7 @@ public class PedidoServico {
         return pedidosPorCliente;
     }
 
-    public void AtualizarStatusPedido(int idPedido) throws InputMismatchException, SQLException{
+    public void AtualizarStatusPedido(int idPedido) throws InputMismatchException, SQLException, DadosInvalidosException{
         
         Pedido pedidoAtt = PedidoDao.buscarPedidoPorId(idPedido);
         if(pedidoAtt != null){
@@ -110,21 +112,7 @@ public class PedidoServico {
         return null;
     }
 
-    public static String returnStatusTexto(int status){
-        String statusTexto = "";
-        if(status == 1){
-            return statusTexto += ">>>Processando.";
-        } else if(status == 2){
-            return statusTexto += ">>>Enviado.";
-        } else if(status == 3){
-            return statusTexto += ">>>Entregue.";
-        } else if(status == 4){
-            return statusTexto += ">>>Cancelado.";
-        }
-        return null;
-    }
-
-    public void cancelarPedido(int idPedido) throws InputMismatchException, SQLException{
+    public void cancelarPedido(int idPedido) throws InputMismatchException, SQLException, DadosInvalidosException{
         
         Pedido pedidoCancelar = PedidoDao.buscarPedidoPorId(idPedido);
         if(pedidoCancelar != null){
@@ -144,7 +132,7 @@ public class PedidoServico {
         }
     }
 
-    public String mostrarPedidos() throws InputMismatchException, SQLException{ // to string padrão
+    public String mostrarPedidos() throws InputMismatchException, SQLException, DadosInvalidosException{ // to string padrão
         String pedidosLista = "";
         for(Pedido pedido : PedidoDao.listarTodosPedidos()){
             pedidosLista += pedido.toString();

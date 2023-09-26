@@ -1,6 +1,8 @@
 package DAO;
 
 import Entidades.*;
+import Excecoes.DadosInvalidosException;
+
 import java.sql.*;
 import java.util.*;
 
@@ -13,19 +15,20 @@ public class UsuarioDao {
     }
 
     public static void inserirUsuario(Usuario usuario) throws SQLException{
-        String sql = "INSERT INTO usuario (nome_usuario, login_usuario, senha_usuario, gerencia) VALUES (?, ?, ?, ?);";
+        String sql = "INSERT INTO usuario (nome_usuario, login_usuario, senha_usuario, endereco, gerencia) VALUES (?, ?, ?, ?, ?);";
 
         try(PreparedStatement preparedStatement = conexaoUsuario.prepareStatement(sql)){
             preparedStatement.setString(1, usuario.getNomeUsuario());
             preparedStatement.setString(2, usuario.getLoginUsuario());
             preparedStatement.setString(3, usuario.getSenhaUsuario());
+            preparedStatement.setString(4, usuario.getEndereco());
             preparedStatement.setBoolean(4, usuario.isGerencia());
 
             preparedStatement.executeUpdate();
         }
     }
 
-    public static Usuario buscarUsuarioPorId(int id) throws SQLException{
+    public static Usuario buscarUsuarioPorId(int id) throws SQLException, DadosInvalidosException{
         String sql = "SELECT * FROM usuario WHERE id_usuario = ?;";
 
         try(PreparedStatement preparedStatement = conexaoUsuario.prepareStatement(sql)){
@@ -40,7 +43,7 @@ public class UsuarioDao {
         return null;
     }
 
-    public static Usuario buscarUsuarioPorLoginSenha(String login, String senha, boolean gerencia) throws SQLException{
+    public static Usuario buscarUsuarioPorLoginSenha(String login, String senha, boolean gerencia) throws SQLException, DadosInvalidosException{
         String sql = "SELECT * FROM usuario WHERE login_usuario = ? AND senha_usuario = ? AND gerencia = ?;";
 
         try(PreparedStatement preparedStatement = conexaoUsuario.prepareStatement(sql)){
@@ -73,7 +76,7 @@ public class UsuarioDao {
         }
     }
 
-    public static List<Usuario> listarUsuariosPorCargo(boolean gerencia) throws SQLException{
+    public static List<Usuario> listarUsuariosPorCargo(boolean gerencia) throws SQLException, DadosInvalidosException{
         List<Usuario> Usuarios = new ArrayList<>();
         String sql = "SELECT * FROM usuario WHERE gerencia = ?;";
 
@@ -90,12 +93,14 @@ public class UsuarioDao {
     }
 
     public static void atualizarUsuario(Usuario usuario) throws SQLException{
-        String sql = "UPDATE usuario SET nome_usuario = ?, login_usuario = ?, senha_usuario = ? WHERE id_usuario = ?;";
+        String sql = "UPDATE usuario SET nome_usuario = ?, login_usuario = ?, senha_usuario = ?, endereco = ? WHERE id_usuario = ?;";
 
         try(PreparedStatement preparedStatement = conexaoUsuario.prepareStatement(sql)){
             preparedStatement.setString(1, usuario.getNomeUsuario());
             preparedStatement.setString(2, usuario.getLoginUsuario());
             preparedStatement.setString(3, usuario.getSenhaUsuario());
+            preparedStatement.setString(4, usuario.getEndereco());
+            preparedStatement.setInt(5, usuario.getIdUsuario());
 
             preparedStatement.executeUpdate();
         }
@@ -111,13 +116,14 @@ public class UsuarioDao {
         }
     }
 
-    private static Usuario mapearResultSetParaUsuario(ResultSet resultSet) throws SQLException{
+    private static Usuario mapearResultSetParaUsuario(ResultSet resultSet) throws SQLException, DadosInvalidosException{
         int id = resultSet.getInt("id_usuario");
         String nome = resultSet.getString("nome_usuario");
         String login = resultSet.getString("login_usuario");
         String senha = resultSet.getString("senha_usuario");
+        String endereco = resultSet.getString("endereco");
         boolean cargo = resultSet.getBoolean("gerencia");
 
-        return new Usuario(id, nome, login, senha, cargo);
+        return new Usuario(id, nome, login, senha, endereco, cargo);
     }
 }

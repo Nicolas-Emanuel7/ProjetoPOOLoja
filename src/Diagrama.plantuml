@@ -1,0 +1,89 @@
+@startuml ProjetoPooLoja
+
+    class Usuario{
+        -int idUsuario
+        -String nomeUsuario
+        -String loginUsuario
+        -String senhaUsuario
+        -String endereco
+        -boolean gerencia
+
+        +void cadastrarUsuario()
+        +boolean verificarLogin()
+        +Usuario loginUsuario()
+        +Usuario getUsuarioPorId()
+        +void atualizarUsuario()
+        +void apagarUsuario()
+        +String mostrarUsuariosPorCargo()
+        +String toString()
+    }
+
+    class Pedido {
+        -int idPedido
+        -Usuario cliente
+        -StatusPedido status
+        -double valorFinal
+
+        +Pedido criarPedido()
+        +double calcularTotalPedido()
+        +String getPedidosPorCliente()
+        +void atualizarStatusPedido()
+        +StatusPedido returnStatus()
+        +void cancelarPedido()
+        +void apagarPedido()
+        +String mostrarPedidos()
+        +String toString()
+    }
+
+    class ItemDePedido{
+        -int quantidade
+        -int idPedido
+        -int idItem
+        -int idCalcado
+        -int tamanho
+
+        +List addItemAoPedido()
+        +double calcularSubTotal()
+    }
+
+    class Calcado{
+        -int idCalcado
+        -int idGerente
+        -TipoCalcado tipoCalcado
+        -String modeloCalcado
+        -double preco
+
+        +void addCalcado()
+        +Calcado getCalcadoPorId()
+        +void atualizarCalcado()
+        +void apagarCalcado()
+        +String listarCalcadosPorTipo()
+        +String listarCalcadosPorPreco()
+        +String mostrarCalcadoIndividual()
+        +String mostrarCalcados()
+        +String mostrarTiposDeCalcados()
+        +int tipoCalcadoNumero()
+        +TipoCalcado returnTipoCalcado()
+        +String toString()
+    }
+
+    class Estoque{
+        -int idCalcado
+        -int tamanhoDisponivel
+        -int quantidadeEstoque
+
+        +void addTamanhosDoCalcado()
+        +void aumentarEstoque()
+        +void diminuirEstoque()
+        +boolean checarCompra()
+        +String mostrarTamanhosPorCalcado()
+    }
+
+    Calcado -- Estoque
+    Usuario --> Pedido
+    Pedido --> ItemDePedido
+    Usuario --> Calcado
+    Calcado --> ItemDePedido
+
+
+@enduml

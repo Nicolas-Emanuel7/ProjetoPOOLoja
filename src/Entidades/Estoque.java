@@ -1,5 +1,7 @@
 package Entidades;
 
+import Excecoes.DadosInvalidosException;
+
 public class Estoque {
     private int idCalcado;
     private int tamanhoDisponivel;
@@ -11,7 +13,13 @@ public class Estoque {
         this.quantidadeEstoque = quantidadeEstoque;
     }
 
-    public Estoque(int tamanhoDisponivel, int quantidadeEstoque){
+    public Estoque(int tamanhoDisponivel, int quantidadeEstoque) throws DadosInvalidosException{
+        if(tamanhoDisponivel <= 0){
+            throw new DadosInvalidosException(">>>Tamanho inválido.");
+        }
+        if(quantidadeEstoque < 0){
+            throw new DadosInvalidosException(">>>Quantidade inválida.");
+        }
         this.tamanhoDisponivel = tamanhoDisponivel;
         this.quantidadeEstoque = quantidadeEstoque;
     }

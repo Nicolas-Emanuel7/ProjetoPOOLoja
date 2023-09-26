@@ -1,5 +1,7 @@
 package Entidades;
 
+import Excecoes.DadosInvalidosException;
+
 public class Calcado {
     private int idCalcado;
     private int idGerente;
@@ -15,7 +17,13 @@ public class Calcado {
         this.preco = preco;
     }
 
-    public Calcado(int idGerente, TipoCalcado tipoCalcado, String modeloCalcado, double preco){
+    public Calcado(int idGerente, TipoCalcado tipoCalcado, String modeloCalcado, double preco) throws DadosInvalidosException{
+        if(modeloCalcado.isEmpty()){
+            throw new DadosInvalidosException(">>>Modelo do calçado não pode estar vazio.");
+        }
+        if(preco <= 0){
+            throw new DadosInvalidosException(">>>Preço de produto inválido.");
+        }
         this.idGerente = idGerente;
         this.tipoCalcado = tipoCalcado;
         this.modeloCalcado = modeloCalcado;

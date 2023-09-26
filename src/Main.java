@@ -1,4 +1,5 @@
 import Entidades.*;
+import Excecoes.DadosInvalidosException;
 import DAO.*;
 
 import java.sql.*;
@@ -8,7 +9,7 @@ import DAO.ConexaoPostgreSQL;
 
 public class Main {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, DadosInvalidosException{
 
         Connection conexao = ConexaoPostgreSQL.conectar();
         new CalcadoDao(conexao);

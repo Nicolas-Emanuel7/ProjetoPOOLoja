@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.*;
 
 import Entidades.*;
+import Excecoes.DadosInvalidosException;
 import Servicos.PedidoServico;
 
 public class PedidoDao {
@@ -26,7 +27,7 @@ public class PedidoDao {
         }
     }
 
-    public static Pedido buscarPedidoPorId(int id) throws SQLException, InputMismatchException{
+    public static Pedido buscarPedidoPorId(int id) throws SQLException, InputMismatchException, DadosInvalidosException{
         String sql = "SELECT * FROM pedido WHERE id_pedido = ?;";
 
         try(PreparedStatement preparedStatement = conexaoPedido.prepareStatement(sql)){
@@ -41,7 +42,7 @@ public class PedidoDao {
         return null;
     }
 
-    public static List<Pedido> buscarPedidosPorCliente(int idCliente) throws SQLException, InputMismatchException{
+    public static List<Pedido> buscarPedidosPorCliente(int idCliente) throws SQLException, InputMismatchException, DadosInvalidosException{
         String sql = "SELECT * FROM pedido WHERE id_cliente = ?;";
         List<Pedido> pedidosPorCliente = new ArrayList<>();
         try(PreparedStatement preparedStatement = conexaoPedido.prepareStatement(sql)){
@@ -56,7 +57,7 @@ public class PedidoDao {
         }
     }
 
-    public static List<Pedido> listarTodosPedidos() throws SQLException, InputMismatchException{
+    public static List<Pedido> listarTodosPedidos() throws SQLException, InputMismatchException, DadosInvalidosException{
         List<Pedido> pedidos = new ArrayList<>();
         String sql = "SELECT * FROM pedido;";
 
@@ -82,12 +83,12 @@ public class PedidoDao {
         }
     }
 
-    public static void atualizarValorFinal(Pedido pedido) throws SQLException{
+    public static void atualizarValorFinal(int id, Pedido pedido) throws SQLException{
         String sql = "UPDATE pedido SET valor_final = ? WHERE id_pedido = ?;";
 
         try(PreparedStatement preparedStatement = conexaoPedido.prepareStatement(sql)){
             preparedStatement.setDouble(1, pedido.getValorFinal());
-            preparedStatement.setInt(2, pedido.getIdPedido());
+            preparedStatement.setInt(2, id);
 
             preparedStatement.executeUpdate();
         }
@@ -115,7 +116,7 @@ public class PedidoDao {
     }
 
     // método auxiliar para mapear um resultSet para um objeto pedido
-    private static Pedido mapearResultSetParaPedido(ResultSet resultSet) throws SQLException, InputMismatchException{
+    private static Pedido mapearResultSetParaPedido(ResultSet resultSet) throws SQLException, InputMismatchException, DadosInvalidosException{
         int id = resultSet.getInt("id_pedido");
         int idCliente = resultSet.getInt("id_cliente");
         int status = resultSet.getInt("status");
