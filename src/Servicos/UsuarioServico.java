@@ -81,6 +81,7 @@ public class UsuarioServico {
             System.out.println(">>>Operação cancelada.");
         }else{
             UsuarioDao.excluirUsuario(idUsuario);
+            PedidoDao.excluirPedido(idUsuario);
             System.out.println(">>>Operação concluída.");
         }
     }

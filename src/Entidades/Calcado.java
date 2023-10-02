@@ -66,7 +66,7 @@ public class Calcado {
         saida += "ID: "+this.idCalcado;
         saida += "\tTipo: "+this.tipoCalcado;
         saida += "\tModelo: "+this.modeloCalcado;
-        saida += "Preço: "+this.preco+"\n";
+        saida += "\tPreço: "+this.preco+"\n";
         return saida;
     }
 }

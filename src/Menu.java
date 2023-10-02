@@ -19,7 +19,7 @@ public class Menu {
         try{
             System.out.println(">>>Digite o seu Nome: ");
             String nome = entrada.nextLine();
-            System.out.println(">>>Digite o seu Login ");
+            System.out.println(">>>Digite o seu Login: ");
             String login = entrada.nextLine();
             System.out.println(">>>Digite a sua Senha:  ");
             String senha = entrada.nextLine();
@@ -66,44 +66,39 @@ public class Menu {
 
         Scanner entrada = new Scanner(System.in);
         try{
-            if(usuario != null){
-                System.out.println(">>>Seus dados: "+usuario.toString());
-                System.out.println(">>>Deseja atualizar seus dados? (1)-Sim (2)-Não");
-                int opcao = entrada.nextInt();
-                if(opcao == 1){
-                    System.out.println(">>>Digite o novo nome do usuario: ");
-                    String novoNome = entrada.nextLine();
-                    System.out.println(">>>Digite o novo login do usuario: ");
-                    String novoLogin = entrada.nextLine();
-                    System.out.println(">>>Digite a nova senha do usuario: ");
-                    String novaSenha = entrada.nextLine();
-                    System.out.println(">>>Digite o seu novo endereco: ");
-                    String novoEndereco = entrada.nextLine();
+            System.out.println(">>>Seus dados: "+usuario.toString());
+            System.out.println(">>>Deseja atualizar seus dados? (1)-Sim (2)-Não");
+            String opcao = entrada.nextLine();
+            if(opcao.equals("1")){
+                System.out.println(">>>Digite o novo nome do usuario: ");
+                String novoNome = entrada.nextLine();
+                System.out.println(">>>Digite o novo login do usuario: ");
+                String novoLogin = entrada.nextLine();
+                System.out.println(">>>Digite a nova senha do usuario: ");
+                String novaSenha = entrada.nextLine();
+                System.out.println(">>>Digite o seu novo endereco: ");
+                String novoEndereco = entrada.nextLine();
 
-                    if(novoLogin != usuario.getLoginUsuario()){
-                        if(usuarioServico.verificarLogin(novoLogin) == true){
-                            System.out.println(">>>Login já cadastrado.");
-                        }else{
-                            usuario.setNomeUsuario(novoNome);
-                            usuario.setLoginUsuario(novoLogin);
-                            usuario.setSenhaUsuario(novaSenha);
-                            usuario.setEndereco(novoEndereco);
-                            usuarioServico.atualizarUsuario(usuario);
-                        }
+                if(novoLogin != usuario.getLoginUsuario()){
+                    if(usuarioServico.verificarLogin(novoLogin) == true){
+                        System.out.println(">>>Login já cadastrado.");
                     }else{
                         usuario.setNomeUsuario(novoNome);
                         usuario.setLoginUsuario(novoLogin);
                         usuario.setSenhaUsuario(novaSenha);
                         usuario.setEndereco(novoEndereco);
                         usuarioServico.atualizarUsuario(usuario);
-                    }
-                }
-                else{
-                    System.out.println(">>>Operação cancelada.");
+                        }
+                }else{
+                    usuario.setNomeUsuario(novoNome);
+                    usuario.setLoginUsuario(novoLogin);
+                    usuario.setSenhaUsuario(novaSenha);
+                    usuario.setEndereco(novoEndereco);
+                    usuarioServico.atualizarUsuario(usuario);
                 }
             }
             else{
-                System.out.println(">>>Usuário não encontrado.\n");
+                System.out.println(">>>Operação cancelada.");
             }
         }
         catch (InputMismatchException e){
@@ -121,9 +116,9 @@ public class Menu {
         Scanner entrada = new Scanner(System.in);
         try{
             System.out.println(">>>Tem certeza que deseja apagar sua conta? (1)-Sim (0)-Não");
-            int opcao = entrada.nextInt();
+            String opcao = entrada.nextLine();
 
-            if(opcao == 1){
+            if(opcao.equals("1")){
                 System.out.println(">>>Para confirmar, digite sua senha: ");
                 String senhaApagar = entrada.nextLine();
 
@@ -168,7 +163,7 @@ public class Menu {
 
     // OPÇÕES DE PEDIDO ///////////////////////////////////////////////////////////////////////////
 
-    public static void criarPedido(Usuario cliente) throws SQLException, DadosInvalidosException{ // funciona, mas falta arrumar
+    public static void criarPedido(Usuario cliente) throws SQLException, DadosInvalidosException{
 
         Scanner entrada = new Scanner(System.in);
         try{
@@ -224,7 +219,7 @@ public class Menu {
         }
     }
 
-    public static void cancelarPedido(Usuario cliente) throws SQLException, DadosInvalidosException{ // funciona
+    public static void cancelarPedido(Usuario cliente) throws SQLException, DadosInvalidosException{ 
         
         Scanner entrada = new Scanner(System.in);
         try{
@@ -248,11 +243,11 @@ public class Menu {
         }
     }
 
-    public static void listarPedidosPorCliente(Usuario cliente) throws InputMismatchException, SQLException, DadosInvalidosException{ // funciona
+    public static void listarPedidosPorCliente(Usuario cliente) throws InputMismatchException, SQLException, DadosInvalidosException{ 
         System.out.println(pedidoServico.getPedidosPorCLiente(cliente.getIdUsuario())+"\n");
     }
 
-    public static void buscarPedidosPorCliente() throws SQLException, DadosInvalidosException{ // funciona
+    public static void buscarPedidosPorCliente() throws SQLException, DadosInvalidosException{
         
         Scanner entrada = new Scanner(System.in);
         
@@ -262,7 +257,7 @@ public class Menu {
             System.out.println("\n>>>Digite o ID daquele que deseja ver os pedidos: ");
             int idBusca = entrada.nextInt();
 
-            System.out.println(pedidoServico.getPedidosPorCLiente(idBusca)); // ta usando a função la da outra pagina
+            System.out.println(pedidoServico.getPedidosPorCLiente(idBusca)); 
         } catch (InputMismatchException e) {
             e.printStackTrace();
         } finally{
@@ -270,7 +265,7 @@ public class Menu {
         }
     }
 
-    public static void atualizarPedidoStatus() throws SQLException, DadosInvalidosException{ // não testei
+    public static void atualizarPedidoStatus() throws SQLException, DadosInvalidosException{ 
 
         Scanner entrada = new Scanner(System.in);
 
@@ -280,7 +275,7 @@ public class Menu {
             System.out.println("\n>>>Digite o id do qual deseja atualizar o status: ");
             int idPedidoEscolha = entrada.nextInt();
 
-            pedidoServico.AtualizarStatusPedido(idPedidoEscolha); // vai pra outra pagina ver
+            pedidoServico.AtualizarStatusPedido(idPedidoEscolha); 
         } catch (InputMismatchException e) {
             e.printStackTrace();
         } finally{
@@ -288,7 +283,7 @@ public class Menu {
         }
     }
 
-    public static void listarPedidos() throws InputMismatchException, SQLException, DadosInvalidosException{ // funciona
+    public static void listarPedidos() throws InputMismatchException, SQLException, DadosInvalidosException{ 
         System.out.println(pedidoServico.mostrarPedidos());
     }
 
@@ -352,28 +347,28 @@ public class Menu {
         }
     }
 
-    public static void atualizarProduto(Usuario gerente) throws SQLException{ // funciona, mas falta arrumar
+    public static void atualizarProduto(Usuario gerente) throws SQLException{ 
 
         Scanner entrada = new Scanner(System.in);
 
         try{
             System.out.println(calcadoServico.mostrarCalcados());
             System.out.println(">>>Digite o ID do calçado que deseja atualizar: ");
-            int idEscolha = entrada.nextInt();
+            String idEscolha = entrada.nextLine();
 
-            Calcado calcadoAtualizar = CalcadoServico.getCalcadoPorId(idEscolha);
+            Calcado calcadoAtualizar = CalcadoServico.getCalcadoPorId(Integer.parseInt(idEscolha));
 
             if(calcadoAtualizar != null){
-                System.out.println(calcadoServico.mostrarTiposDeCalcados());
-                System.out.println(">>>Digite o número correspondente ao novo tipo desse calçado: ");
+                System.out.println("\n"+calcadoServico.mostrarTiposDeCalcados());
+                System.out.println(">>>Digite o número correspondente ao tipo que deseja adicionar ao sistema: ");
                 String novoTipo = entrada.nextLine();
-                System.out.println(">>>Digite o nome desse modelo: ");
+                System.out.println(">>>Digite o modelo desse calçado: ");
                 String novoModelo = entrada.nextLine();
-                System.out.println(">>>Digite o preço desse modelo: ");
-                double novoPreco = entrada.nextDouble();
+                System.out.println(">>>Digite o preço ao qual esse calçado ( "+novoModelo+" ) será vendido: ");
+                String novoPreco = entrada.nextLine();
 
                 calcadoAtualizar.setModeloCalcado(novoModelo);
-                calcadoAtualizar.setPreco(novoPreco);
+                calcadoAtualizar.setPreco(Double.parseDouble(novoPreco));
                 calcadoAtualizar.setTipoCalcado(CalcadoServico.returnTipoCalcado(Integer.parseInt(novoTipo)));
                 calcadoServico.atualizarCalcado(calcadoAtualizar, gerente.getIdUsuario());
             }
@@ -384,7 +379,7 @@ public class Menu {
         }
     }
 
-    public static void deletarProduto() throws SQLException{ // não testei
+    public static void deletarProduto() throws SQLException{ 
         
         Scanner entrada = new Scanner(System.in);
 
@@ -402,7 +397,7 @@ public class Menu {
         }
     }
 
-    public static void listarProduto() throws InputMismatchException, SQLException{ // funciona
+    public static void listarProduto() throws InputMismatchException, SQLException{
 
         Scanner entrada = new Scanner(System.in);
         System.out.println(calcadoServico.mostrarCalcados()+"\n");
@@ -440,7 +435,7 @@ public class Menu {
         }
     }
 
-    public static void buscarProduto() throws SQLException{ // funciona
+    public static void buscarProduto() throws SQLException{ 
 
         Scanner entrada = new Scanner(System.in);
 
@@ -451,7 +446,7 @@ public class Menu {
             Calcado calcadoEncontrado = CalcadoServico.getCalcadoPorId(idBusca);
 
             if(calcadoEncontrado != null){
-                System.out.println(">>>Produto encontrado: "+calcadoServico.mostrarCalcadoIndividual(calcadoEncontrado)); //msm coisa do dos clientes
+                System.out.println(">>>Produto encontrado: "+calcadoServico.mostrarCalcadoIndividual(calcadoEncontrado));
             }
             else{
                 System.out.println(">>>Produto não encontrado.\n");

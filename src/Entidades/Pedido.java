@@ -55,8 +55,13 @@ public class Pedido {
 
     public String toString(){
         String saida = "ID: "+this.idPedido;
-        saida += "\tCliente: "+this.cliente.getNomeUsuario();
-        saida += "\tEndereço de destino: "+this.cliente.getEndereco();
+        if(this.cliente != null){
+            saida += "\tCliente: "+this.cliente.getNomeUsuario();
+            saida += "\tEndereço de destino: "+this.cliente.getEndereco();
+        }else{
+            saida += "\tCliente: Não existe no sistema.";
+            saida += "\tEndereço de destino: Não existe no sistema.";
+        }
         saida += "\tValor: "+this.valorFinal;
         saida += "\tStatus: "+this.status+"\n";
         return saida;

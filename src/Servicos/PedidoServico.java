@@ -13,23 +13,23 @@ public class PedidoServico {
     
     public Pedido criarPedido(Usuario clienteEscolhido) throws InputMismatchException, SQLException{
         
-        StatusPedido status = StatusPedido.PROCESSANDO; // criando o status inicial sempre como processando
-        double valorFinal = 0.0; // criando valor final como 0
+        StatusPedido status = StatusPedido.PROCESSANDO; 
+        double valorFinal = 0.0; 
 
         try {
             Carrinho.clear();
-            Pedido novoPedido = new Pedido(clienteEscolhido, status, valorFinal); // criando o novo pedido
+            Pedido novoPedido = new Pedido(clienteEscolhido, status, valorFinal); 
             PedidoDao.inserirPedido(novoPedido);
             
             return novoPedido;
         } catch (InputMismatchException e) {
             e.printStackTrace();
         } 
-        return null; // retornando o id pedido pra ser usando em outras funções
+        return null; 
 
     }
 
-    public List<ItemDePedido> addItemAoPedido(Pedido pedido, int quantidade, Calcado calcadoEscolhido, int tamanho) throws SQLException, DadosInvalidosException{
+    public void addItemAoPedido(Pedido pedido, int quantidade, Calcado calcadoEscolhido, int tamanho) throws SQLException, DadosInvalidosException{
 
         try{
             if(calcadoEscolhido != null){
@@ -44,14 +44,12 @@ public class PedidoServico {
                 
                 pedido.setValorFinal(calcularTotalPedido(Carrinho));
                 
-                int idPedido = PedidoDao.listarTodosPedidos().size(); // isso tá sendo utilizado para pegar o ID do último pedido criado
+                int idPedido = PedidoDao.listarTodosPedidos().size();
                 PedidoDao.atualizarValorFinal(idPedido, pedido);
-                return Carrinho; 
             }
         } catch(InputMismatchException e){
             e.printStackTrace();
         }
-        return null;
     }
 
     public double calcularSubTotal(Calcado calcado, int quantidade){
@@ -85,7 +83,7 @@ public class PedidoServico {
         if(pedidoAtt != null){
             if(pedidoAtt.getStatus() == 1){
                 pedidoAtt.setStatus(StatusPedido.ENVIADO);
-                PedidoDao.atualizarStatusDao(idPedido, 2); // ta atualizando no banco de dados o status, ai precisa q seja um int
+                PedidoDao.atualizarStatusDao(idPedido, 2); 
                 System.out.println(">>>O pedido foi enviado.\n");
             }
             else if(pedidoAtt.getStatus() == 2){
@@ -132,12 +130,16 @@ public class PedidoServico {
         }
     }
 
-    public String mostrarPedidos() throws InputMismatchException, SQLException, DadosInvalidosException{ // to string padrão
+    public String mostrarPedidos() throws InputMismatchException, SQLException, DadosInvalidosException{ 
         String pedidosLista = "";
-        for(Pedido pedido : PedidoDao.listarTodosPedidos()){
-            pedidosLista += pedido.toString();
+        if(PedidoDao.listarTodosPedidos() != null){
+            for(Pedido pedido : PedidoDao.listarTodosPedidos()){
+                pedidosLista += pedido.toString();
+            }
+            return pedidosLista;
+        }else{
+            pedidosLista += "Não há pedidos cadastrados.";
+            return pedidosLista;
         }
-        return pedidosLista;
     }
-
 }

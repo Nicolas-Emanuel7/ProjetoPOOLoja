@@ -100,7 +100,7 @@ public class CalcadoServico {
             System.out.println(">>>Operação cancelada.");
         } else{
             CalcadoDao.excluirCalcado(idCalcado);
-            System.out.println(">>>Operação concluída");
+            System.out.println(">>>Operação concluída.");
         }
     }
 

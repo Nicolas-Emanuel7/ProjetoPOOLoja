@@ -96,7 +96,7 @@ public class CalcadoDao {
     }
 
     public static void atualizarCalcado(Calcado calcado, int idGerente) throws SQLException{
-        String sql = "UPDATE calcado SET id_gerente = ? tipo_calcado = ?, modelo_calcado = ?, preco = ? WHERE id_calcado = ?;";
+        String sql = "UPDATE calcado SET id_gerente = ?, tipo_calcado = ?, modelo_calcado = ?, preco = ? WHERE id_calcado = ?;";
 
         try(PreparedStatement preparedStatement = conexaoCalcado.prepareStatement(sql)){
             preparedStatement.setInt(1, idGerente);

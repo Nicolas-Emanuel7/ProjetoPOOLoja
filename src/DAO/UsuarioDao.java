@@ -22,7 +22,7 @@ public class UsuarioDao {
             preparedStatement.setString(2, usuario.getLoginUsuario());
             preparedStatement.setString(3, usuario.getSenhaUsuario());
             preparedStatement.setString(4, usuario.getEndereco());
-            preparedStatement.setBoolean(4, usuario.isGerencia());
+            preparedStatement.setBoolean(5, usuario.isGerencia());
 
             preparedStatement.executeUpdate();
         }
