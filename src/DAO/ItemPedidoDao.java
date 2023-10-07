@@ -99,6 +99,17 @@ public class ItemPedidoDao {
             preparedStatement.executeUpdate();
         }
     }
+    
+    public static void excluirPedidosPorCalcado(int idCalcado) throws SQLException{
+        // Define a instrução SQL para excluir itens de pedido associados ao pedido com o ID fornecido.
+        String sql = "DELETE FROM item_de_pedido WHERE id_calcado = ?;";
+
+        try(PreparedStatement preparedStatement = conexaoItem.prepareStatement(sql)){
+            preparedStatement.setInt(1, idCalcado);
+            // Executa a instrução SQL DELETE no banco de dados, removendo todos os itens associados ao pedido com o ID fornecido
+            preparedStatement.executeUpdate();
+        }
+    }
 
     // método auxiliar para mapear um resultSet para um objeto ItemDePedido
     private static ItemDePedido mapearResultSetParaItemDePedido(ResultSet resultSet) throws SQLException, InputMismatchException{

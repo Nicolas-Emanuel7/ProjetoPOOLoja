@@ -76,10 +76,14 @@ public class UsuarioServico {
         }
     }
     // Método para apagar um usuário do sistema pelo seu ID
-    public void apagarUsuario(int idUsuario) throws SQLException{
+    public void apagarUsuario(int idUsuario) throws SQLException, InputMismatchException, DadosInvalidosException{
         if(idUsuario == 0){
             System.out.println(">>>Operação cancelada.");
         }else{
+            for(Pedido pedido : PedidoDao.buscarPedidosPorCliente(idUsuario)){
+
+                ItemPedidoDao.excluirItensDoPedido(pedido.getIdPedido());
+            }
             PedidoDao.excluirPedido(idUsuario); // primeiro é necessário excluir os pedidos desse usuário
             UsuarioDao.excluirUsuario(idUsuario); // depois exclui ele :c
             System.out.println(">>>Operação concluída.");

@@ -101,6 +101,7 @@ public class CalcadoServico {
         if(idCalcado == 0){// se a entrada for = 0, irá cancelar a operação
             System.out.println(">>>Operação cancelada.");
         } else{  
+            ItemPedidoDao.excluirPedidosPorCalcado(idCalcado);
             EstoqueDao.excluirEstoque(idCalcado);// Exclui o estoque associado ao calçado
             CalcadoDao.excluirCalcado(idCalcado);// Exclui o calçado do banco de dados
             System.out.println(">>>Operação concluída.");

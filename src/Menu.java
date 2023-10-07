@@ -111,7 +111,7 @@ public class Menu {
         System.out.println(usuarioServico.mostrarUsuariosPorCargo(cargo));
     }
     // Este método permite que um usuário delete sua própria conta.
-    public static void deletarUsuario(Usuario usuario) throws SQLException{
+    public static void deletarUsuario(Usuario usuario) throws SQLException, DadosInvalidosException{
         Scanner entrada = new Scanner(System.in);
         try{
             System.out.println(">>>Tem certeza que deseja apagar sua conta? (1)-Sim (0)-Não");

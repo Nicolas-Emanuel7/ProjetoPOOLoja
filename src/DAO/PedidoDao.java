@@ -127,7 +127,7 @@ public class PedidoDao {
     // Método estático para excluir um pedido do banco de dados com base no ID do pedido fornecido.
     public static void excluirPedido(int id) throws SQLException{
          // Consulta SQL para excluir um pedido do banco de dados.
-        String sql = "DELETE FROM pedido WHERE id_pedido = ?;";
+        String sql = "DELETE FROM pedido WHERE id_cliente = ?;";
         // Inicia um bloco 'try-with-resources' para garantir o fechamento automático do PreparedStatement
         try(PreparedStatement preparedStatement = conexaoPedido.prepareStatement(sql)){
             preparedStatement.setInt(1, id);// Define o ID do pedido no espaço reservado na consulta SQL.

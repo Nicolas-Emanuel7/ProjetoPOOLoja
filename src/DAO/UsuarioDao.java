@@ -18,7 +18,7 @@ public class UsuarioDao {
         String sql = "INSERT INTO usuario (nome_usuario, login_usuario, senha_usuario, endereco, gerencia) VALUES (?, ?, ?, ?, ?);";
         // Inicia um bloco 'try' para manipular possíveis exceções do SQL    
         try(PreparedStatement preparedStatement = conexaoUsuario.prepareStatement(sql)){
-            // PreparedStatement defini os valores dos espaços reservados antes de executar a instrução (sql)
+            // PreparedStatement define os valores dos espaços reservados antes de executar a instrução (sql)
             preparedStatement.setString(1, usuario.getNomeUsuario());// define o primeiro espaço reservado na instrução SQL 
             preparedStatement.setString(2, usuario.getLoginUsuario());
             preparedStatement.setString(3, usuario.getSenhaUsuario());
@@ -33,7 +33,7 @@ public class UsuarioDao {
         String sql = "SELECT * FROM usuario WHERE id_usuario = ?;";// Consulta SQL para buscar um objeto Usuário pelo id do usuário
         // Inicia um bloco 'try' para manipular possíveis exceções do SQL
         try(PreparedStatement preparedStatement = conexaoUsuario.prepareStatement(sql)){
-             // Define o primeiro espaço reservado na instrução SQL com o valor do ID
+                                                                
             preparedStatement.setInt(1, id);
 
             try(ResultSet resultSet = preparedStatement.executeQuery()){// Executa a consulta SQL e obtém o resultado
