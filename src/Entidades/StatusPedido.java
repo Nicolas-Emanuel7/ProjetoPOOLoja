@@ -1,6 +1,6 @@
 package Entidades;
 
-public enum StatusPedido {
+public enum StatusPedido { 
     PROCESSANDO,
     ENVIADO,
     ENTREGUE,

@@ -1,12 +1,12 @@
 package Entidades;
 
-public class ItemDePedido {
+public class ItemDePedido {  // Atributos da classe ItemDePedido
     private int quantidade;
     private int idPedido;
     private int idItem;
     private int idCalcado;
     private int tamanho;
-
+     // Construtor da classe ItemDePedido com todos os parâmetros
     public ItemDePedido(int idItem, int idPedido, int idCalcado, int quantidade, int tamanho){
         this.idItem = idItem;
         this.idPedido = idPedido;
@@ -21,7 +21,7 @@ public class ItemDePedido {
         this.quantidade = quantidade;
         this.tamanho = tamanho;
     }
-
+   // Métodos getters e setters para acessar e modificar os atributos da classe
     public int getIdPedido() {
         return idPedido;
     }

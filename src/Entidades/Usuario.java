@@ -4,13 +4,13 @@ import Excecoes.DadosInvalidosException;
 
 public class Usuario {
     
-    private int idUsuario;
+    private int idUsuario;  // atributos da classe Usuario
     private String nomeUsuario;
     private String loginUsuario;
     private String senhaUsuario;
     private String endereco;
     private boolean gerencia;
-
+    // Construtor da classe Calcado com todos os parâmetros
     public Usuario(int idUsuario, String nomeUsuario, String loginUsuario, String senhaUsuario, String endereco, boolean gerencia) throws DadosInvalidosException{
         this.idUsuario = idUsuario;
         this.nomeUsuario = nomeUsuario;
@@ -19,27 +19,28 @@ public class Usuario {
         this.endereco = endereco;
         this.gerencia = gerencia;
     }
-
+    // Construtor para inserção de banco de dados, com validação dos dados
     public Usuario(String nomeUsuario, String loginUsuario, String senhaUsuario, String endereco, boolean gerencia) throws DadosInvalidosException{
-        if(nomeUsuario.isEmpty()){
+         // Validação dos dados
+        if(nomeUsuario.isEmpty()){// Lança exceção se o nome estiver vazio
             throw new DadosInvalidosException(">>>Nome de usuário não pode estar vazio.");
         }
-        if(loginUsuario.isEmpty()){
+        if(loginUsuario.isEmpty()){ // Lança exceção se o login de usuário estiver vazio
             throw new DadosInvalidosException(">>>Login de usuário não pode estar vazio.");
         }
-        if(senhaUsuario.isEmpty()){
+        if(senhaUsuario.isEmpty()){ // Lança exceção se a senha estiver vazia
             throw new DadosInvalidosException(">>>Senha de usuário não pode estar vazia.");
         }
-        if(endereco.isEmpty()){
+        if(endereco.isEmpty()){ // Lança exceção se o endereço estiver vazio
             throw new DadosInvalidosException(">>>Endereço de usuário não pode estar vazio.");
-        }
+        }// Se os dados são válidos, atribui os valores aos atributos
         this.nomeUsuario = nomeUsuario;
         this.loginUsuario = loginUsuario;
         this.senhaUsuario = senhaUsuario;
         this.endereco = endereco;
         this.gerencia = gerencia;
     }
-
+   // Métodos getters e setters para acessar e modificar os atributos da classe
     public int getIdUsuario() {
         return idUsuario;
     }

@@ -1,24 +1,24 @@
 package Entidades;
 
-public class Pedido {
+public class Pedido {  // Atributos da classe Pedido
     private int idPedido;
     private Usuario cliente;
     private StatusPedido status;
     private double valorFinal;
-
+    // Construtor da classe Calcado com todos os parâmetros
     public Pedido(int idPedido, Usuario cliente, StatusPedido status, double valorFinal){
         this.idPedido = idPedido;
         this.cliente = cliente;
         this.status = status;
         this.valorFinal = valorFinal;
     }
-
+    // Segundo construtor apropriado para criar novos itens durante um pedido
     public Pedido(Usuario cliente, StatusPedido status, double valorFinal){
         this.cliente = cliente;
         this.status = status;
         this.valorFinal = valorFinal;
     }
-
+    // Métodos getters e setters para acessar e modificar os atributos da classe
     public double getValorFinal() {
         return valorFinal;
     }
@@ -52,7 +52,7 @@ public class Pedido {
         }
         return 0;
     }
-
+   // Método toString para retornar uma representação em forma de string do objeto Pedido
     public String toString(){
         String saida = "ID: "+this.idPedido;
         if(this.cliente != null){

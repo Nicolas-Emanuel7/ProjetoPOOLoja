@@ -1,39 +1,39 @@
-import Entidades.*;
+import Entidades.*; // Importações de classes e pacotes necessários
 import Excecoes.DadosInvalidosException;
 import DAO.*;
 
 import java.sql.*;
 import java.util.*;
 
-import DAO.ConexaoPostgreSQL;
-
 public class Main {
 
     public static void main(String[] args) throws SQLException, DadosInvalidosException{
 
-        Connection conexao = ConexaoPostgreSQL.conectar();
+        Connection conexao = ConexaoPostgreSQL.conectar(); //  Conexão com o banco de dados PostgreSQL é estabelecida
+        // objetos DAO são inicializados para manipular os dados do banco.
         new CalcadoDao(conexao);
         new EstoqueDao(conexao);
         new PedidoDao(conexao);
         new UsuarioDao(conexao);
         new ItemPedidoDao(conexao);
 
-        Scanner scanner = new Scanner(System.in);
-        int op1 = 1;
+        Scanner scanner = new Scanner(System.in);  // ler entrada do usuário
+        int op1 = 1; // Variável para armazenar a escolha do usuário
 
-        do {
+        do {  // Exibe o menu principal
             System.out.println("\nBem vindo à loja Marinho!");
             System.out.println(">>>Que tipo de usuário você é?\n");
             System.out.println("1- GERENTE");
             System.out.println("2- CLIENTE\n");
             System.out.println("0- SAIR DO SISTEMA\n");
 
-            op1 = scanner.nextInt();
-            Menu.clearBuffer(scanner);
+            op1 = scanner.nextInt(); // Lê a escolha do usuário
+            Menu.clearBuffer(scanner); // Limpa o buffer do scanner para evitar problemas de entrada
 
-            int opLogin = 1;
+            int opLogin = 1; // Variável para armazenar a escolha do usuário
+            
 
-            switch (op1) {
+            switch (op1) { // Switch case para as escolhas do menu principal
 
                 // MENU DO GERENTE /////////////////////////////
                 case 1:
@@ -47,9 +47,9 @@ public class Main {
                             case 1:
                                 Usuario gerente = Menu.loginUsuario(true);
                                 int opMenuGerente = 1;
-                                if (gerente != null) {
+                                if (gerente != null) { // Se o login do gerente for bem-sucedido
                                     do {
-                                        menuGerente();
+                                        menuGerente();// Exibe o menu de opções para o gerente
                                         opMenuGerente = scanner.nextInt();
                                         Menu.clearBuffer(scanner);
 
@@ -96,7 +96,7 @@ public class Main {
                                             case 2:
                                                 int opSubmenuGerente2 = 1;
                                                 do {
-                                                    menuClientesGerente();
+                                                    menuClientesGerente(); // Exibe o menu de opções de clientes para o gerente
                                                     opSubmenuGerente2 = scanner.nextInt();
                                                     Menu.clearBuffer(scanner);
 
@@ -219,7 +219,7 @@ public class Main {
                                 int opMenuCliente = 1;
                                 if (cliente != null) {
                                     do {
-                                        menuCliente();
+                                        menuCliente(); // Exibe o menu de opções para o cliente
                                         opMenuCliente = scanner.nextInt();
                                         Menu.clearBuffer(scanner);
 
