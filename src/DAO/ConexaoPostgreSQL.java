@@ -5,7 +5,7 @@ import java.sql.*; // importando pacote para trabalhar com banco de dados
 // estabelecer uma conexão com o banco de dados PostgreSQL usando as informações fornecidas
 public class ConexaoPostgreSQL { 
     public static Connection conectar(){// método conectar(), que retorna um objeto do tipo Connection.
-        String url = "jdbc:postgresql://localhost:5432/ProjetoPOOLoja"; // Define a URL de conexão com o banco de dados PostgreSQL. 
+        String url = "jdbc:postgresql://localhost:5432/ProjetoTeste"; // Define a URL de conexão com o banco de dados PostgreSQL. 
         String usuario = "postgres"; // Define o nome de usuário usado para autenticação no banco de dados PostgreSQL.
         String senha = "55879276";
 

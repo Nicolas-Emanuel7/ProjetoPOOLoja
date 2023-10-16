@@ -15,7 +15,7 @@ public class EstoqueDao {
     // Método para inserir um objeto estoque no banco de dados
     public static void inserirEstoque(Estoque estoque) throws SQLException{
         // String SQL para inserir dados na tabela 'estoque'
-        String sql = "INSERT INTO estoque (id_calcado, tamanho, quantidade_disponivel) VALUES (?, ?, ?);";
+        String sql = "INSERT INTO estoque (fk_id_calcado, tamanho, quantidade_disponivel) VALUES (?, ?, ?);";
        // Inicia um bloco 'try' para manipular possíveis exceções do SQL
         try(PreparedStatement preparedStatement = conexaoEstoque.prepareStatement(sql)){
             // PreparedStatement defini os valores dos espaços reservados antes de executar a instrução (sql)
@@ -46,7 +46,7 @@ public class EstoqueDao {
     //  Busca e retorna um objeto Estoque específico com base no ID do calçado e no tamanho especificados.
     public static Estoque buscarEstoqueEspecifico(int idCalcado, int tamanho) throws SQLException{
         // Consulta SQL para buscar um objeto estoque especifico pelo id e tamanho do calçado
-        String sql = "SELECT * FROM estoque WHERE id_calcado = ? AND tamanho = ?;";
+        String sql = "SELECT * FROM estoque WHERE fk_id_calcado = ? AND tamanho = ?;";
         // Inicia um bloco 'try' para manipular possíveis exceções do SQL
         try(PreparedStatement preparedStatement = conexaoEstoque.prepareStatement(sql)){
             // Define os valores dos espaços reservados na consulta SQL com os parâmetros passados
@@ -65,7 +65,7 @@ public class EstoqueDao {
     // Método estático para listar todos os objetos Estoque representando os tamanhos disponíveis do calçado especificado no banco de dados
     public static List<Estoque> listarTamanhosDisponiveis(int id_calcado) throws SQLException{
         List<Estoque> tamanhosDisponiveis = new ArrayList<>();// Cria uma lista vazia para armazenar objetos Estoque
-        String sql = "SELECT * FROM estoque WHERE id_calcado = ? AND quantidade_disponivel > 0;";
+        String sql = "SELECT * FROM estoque WHERE fk_id_calcado = ? AND quantidade_disponivel > 0;";
         // Inicia um bloco 'try-with-resources' para garantir o fechamento automático dos recursos
         try(PreparedStatement preparedStatement = conexaoEstoque.prepareStatement(sql)){
             // Define o primeiro espaço reservado na instrução SQL com o valor do ID do calçado
@@ -83,7 +83,7 @@ public class EstoqueDao {
     // Método estático para atualizar um objeto Estoque no banco de dados
     public static void atualizarEstoque(Estoque estoque) throws SQLException{
          // Consulta SQL para atualizar os dados do estoque na tabela 'estoque'
-        String sql = "UPDATE estoque SET quantidade_disponivel = ? WHERE id_calcado = ? AND tamanho = ?;";
+        String sql = "UPDATE estoque SET quantidade_disponivel = ? WHERE fk_id_calcado = ? AND tamanho = ?;";
         // Inicia um bloco 'try-with-resources' para garantir o fechamento automático do PreparedStatement
         try(PreparedStatement preparedStatement = conexaoEstoque.prepareStatement(sql)){
             preparedStatement.setInt(1, estoque.getQuantidadeEstoque());// Define a nova quantidade disponível no estoque
@@ -96,7 +96,7 @@ public class EstoqueDao {
    // Método para excluir um estoque do banco de dados com base no ID do tipo de calçado fornecido
     public static void excluirEstoque(int idCalcado) throws SQLException{
         // Consulta SQL para excluir um estoque da tabela 'estoque' com base no ID do calçado 
-        String sql = "DELETE FROM estoque WHERE id_calcado = ?;";
+        String sql = "DELETE FROM estoque WHERE fk_id_calcado = ?;";
        // Inicia um bloco 'try-with-resources' para garantir o fechamento automático do PreparedStatement
         try(PreparedStatement preparedStatement = conexaoEstoque.prepareStatement(sql)){
             // Define o valor do primeiro espaço reservado na consulta SQL para o ID do calçado a ser excluído do estoque
@@ -113,11 +113,12 @@ public class EstoqueDao {
     // SQLException Se ocorrer algum erro ao acessar ou manipular os dados do ResultSet.
     private static Estoque mapearResultSetParaEstoque(ResultSet resultSet) throws SQLException{
         // Extrai os valores das colunas do ResultSet
-        int idCalcado = resultSet.getInt("id_calcado");
+        int idEstoque = resultSet.getInt("id_estoque");
+        int idCalcado = resultSet.getInt("fk_id_calcado");
         int tamanho = resultSet.getInt("tamanho");
         int quantidade = resultSet.getInt("quantidade_disponivel");
         // Cria um novo objeto Estoque com os valores extraídos do ResultSet e retorna-o
-        return new Estoque(idCalcado, tamanho, quantidade);
+        return new Estoque(idEstoque, idCalcado, tamanho, quantidade);
     }
     
 }

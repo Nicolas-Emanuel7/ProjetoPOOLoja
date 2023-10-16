@@ -1,6 +1,7 @@
 import java.sql.*; //Fornece classes para gerenciar interações com o banco de dados.
 import java.util.*;
 
+import DAO.EstoqueDao;
 import Entidades.*;
 import Excecoes.DadosInvalidosException;
 import Servicos.*;
@@ -189,7 +190,8 @@ public class Menu {
 
                         if(calcadoEscolhido != null){//se o calçado escolhido pelo cliente está disponível 
                             if(calcadoServico.checarCompra(calcadoEscolhido.getIdCalcado(), tamanhoEscolhido, quantidadeEscolhida) == true){
-                                pedidoServico.addItemAoPedido(pedidoAtual, quantidadeEscolhida, calcadoEscolhido, tamanhoEscolhido);// calçado é adicionado
+                                Estoque estoqueEspecifico = EstoqueDao.buscarEstoqueEspecifico(idCalcadoEscolhido, tamanhoEscolhido);
+                                pedidoServico.addItemAoPedido(pedidoAtual, quantidadeEscolhida, calcadoEscolhido, estoqueEspecifico.getIdEstoque());// calçado é adicionado
                                 calcadoServico.diminuirEstoque(calcadoEscolhido.getIdCalcado(), tamanhoEscolhido, quantidadeEscolhida);//estoque é reduzido
 
                                 System.out.println(">>>Pedido adicionado ao carrinho\n");
@@ -312,7 +314,7 @@ public class Menu {
         }
     }
     // Este método permite aos gerentes atualizar as informações de estoque no sistema.
-    public static void atualizarEstoque() throws SQLException{
+    public static void atualizarEstoque() throws SQLException, DadosInvalidosException{
         Scanner entrada = new Scanner(System.in);
 
         try{

@@ -26,12 +26,12 @@ public class PedidoServico {
         return null; 
     }
     // Adiciona um item ao pedido
-    public void addItemAoPedido(Pedido pedido, int quantidade, Calcado calcadoEscolhido, int tamanho) throws SQLException, DadosInvalidosException{
+    public void addItemAoPedido(Pedido pedido, int quantidade, Calcado calcadoEscolhido, int idEstoque) throws SQLException, DadosInvalidosException{
 
         try{
             if(calcadoEscolhido != null){ // caso algum calçado seja escolhido na hora da compra
                 // Cria um novo item de pedido e o adiciona ao carrinho
-                ItemDePedido novoItem = new ItemDePedido(pedido.getIdPedido(), calcadoEscolhido.getIdCalcado(), quantidade, tamanho);
+                ItemDePedido novoItem = new ItemDePedido(pedido.getIdPedido(), calcadoEscolhido.getIdCalcado(), quantidade, idEstoque);
                 ItemPedidoDao.inserirItemDePedido(novoItem);
 
                 Carrinho.add(novoItem);

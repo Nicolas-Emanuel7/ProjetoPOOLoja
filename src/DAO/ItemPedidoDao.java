@@ -15,7 +15,7 @@ public class ItemPedidoDao {
     // Método para inserir um objeto item de pedido no banco de dados
     public static void inserirItemDePedido(ItemDePedido itemDePedido) throws SQLException{
         // String SQL para inserir dados na tabela 'item_de_pedido'
-        String sql = "INSERT INTO item_de_pedido (id_pedido, id_calcado, quantidade, tamanho) VALUES (?, ?, ?, ?);";
+        String sql = "INSERT INTO item_de_pedido (fk_id_pedido, fk_id_calcado, quantidade, fk_id_estoque) VALUES (?, ?, ?, ?);";
         // Inicia um bloco 'try' para manipular possíveis exceções do SQL
         try(PreparedStatement preparedStatement = conexaoItem.prepareStatement(sql)){
             // PreparedStatement defini os valores dos espaços reservados antes de executar a instrução (sql)
@@ -64,7 +64,7 @@ public class ItemPedidoDao {
     // Método estático para atualizar um objeto ItemDePedido no banco de dados
     public static void atualizarItemDePedido(ItemDePedido itemDePedido) throws SQLException{
          // Consulta SQL para atualizar os dados do item de pedido na tabela 'item_de_pedido'
-        String sql = "UPDATE item_de_pedido SET id_pedido = ?, id_calcado = ?, quantidade = ?, tamanho = ? WHERE id_item = ?;";
+        String sql = "UPDATE item_de_pedido SET fk_id_pedido = ?, fk_id_calcado = ?, quantidade = ?, fk_id_estoque = ? WHERE id_item = ?;";
         // Inicia um bloco 'try-with-resources' para garantir o fechamento automático do PreparedStatement
         try(PreparedStatement preparedStatement = conexaoItem.prepareStatement(sql)){
             preparedStatement.setInt(1, itemDePedido.getIdPedido());// Define o novo ID do pedido
@@ -91,7 +91,7 @@ public class ItemPedidoDao {
    // Este método é responsável por excluir todos os itens associados a um pedido específico no banco de dados.
     public static void excluirItensDoPedido(int idPedido) throws SQLException{
         // Define a instrução SQL para excluir itens de pedido associados ao pedido com o ID fornecido.
-        String sql = "DELETE FROM item_de_pedido WHERE id_pedido = ?;";
+        String sql = "DELETE FROM item_de_pedido WHERE fk_id_pedido = ?;";
 
         try(PreparedStatement preparedStatement = conexaoItem.prepareStatement(sql)){
             preparedStatement.setInt(1, idPedido);
@@ -102,7 +102,7 @@ public class ItemPedidoDao {
     
     public static void excluirPedidosPorCalcado(int idCalcado) throws SQLException{
         // Define a instrução SQL para excluir itens de pedido associados ao pedido com o ID fornecido.
-        String sql = "DELETE FROM item_de_pedido WHERE id_calcado = ?;";
+        String sql = "DELETE FROM item_de_pedido WHERE fk_id_calcado = ?;";
 
         try(PreparedStatement preparedStatement = conexaoItem.prepareStatement(sql)){
             preparedStatement.setInt(1, idCalcado);
@@ -115,10 +115,10 @@ public class ItemPedidoDao {
     private static ItemDePedido mapearResultSetParaItemDePedido(ResultSet resultSet) throws SQLException, InputMismatchException{
         // Extrai os valores das colunas do ResultSet
         int idItem = resultSet.getInt("id_item");
-        int idPedido = resultSet.getInt("id_pedido");
-        int idCalcado = resultSet.getInt("id_calcado");
+        int idPedido = resultSet.getInt("fk_id_pedido");
+        int idCalcado = resultSet.getInt("fk_id_calcado");
         int quantidade = resultSet.getInt("quantidade");
-        int tamanho = resultSet.getInt("tamanho"); 
+        int tamanho = resultSet.getInt("fk_id_estoque"); 
         // Cria um novo objeto ItemDePedido com os valores extraídos do ResultSet e retorna-o
         return new ItemDePedido(idItem, idPedido, idCalcado, quantidade, tamanho);
     }  

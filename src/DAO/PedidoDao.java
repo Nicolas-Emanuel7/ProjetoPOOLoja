@@ -17,7 +17,7 @@ public class PedidoDao {
     // Método para inserir um objeto Pedido no banco de dados
     public static int inserirPedido(Pedido pedido) throws SQLException{
         // String SQL para inserir dados na tabela 'pedido'
-        String sql = "INSERT INTO pedido (id_cliente, status, valor_final) VALUES (?, ?, ?) RETURNING id_pedido;";
+        String sql = "INSERT INTO pedido (fk_id_usuario, status, valor_final) VALUES (?, ?, ?) RETURNING id_pedido;";
         // Inicia um bloco 'try' para manipular possíveis exceções do SQL
         try(PreparedStatement preparedStatement = conexaoPedido.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
              // PreparedStatement defini os valores dos espaços reservados antes de executar a instrução (sql)
@@ -56,7 +56,7 @@ public class PedidoDao {
     // Método estático para buscar objetos Pedido pelo id do cliente no banco de dados
     public static List<Pedido> buscarPedidosPorCliente(int idCliente) throws SQLException, InputMismatchException, DadosInvalidosException{
         // Consulta SQL para buscar pedidos associados a um cliente específico.
-        String sql = "SELECT * FROM pedido WHERE id_cliente = ?;";
+        String sql = "SELECT * FROM pedido WHERE fk_id_usuario = ?;";
         
         List<Pedido> pedidosPorCliente = new ArrayList<>();
         try(PreparedStatement preparedStatement = conexaoPedido.prepareStatement(sql)){
@@ -89,7 +89,7 @@ public class PedidoDao {
     // Método estático para atualizar um objeto Pedido no banco de dados
     public static void atualizarPedido(Pedido pedido) throws SQLException{
          // Consulta SQL para atualizar os dados do pedido na tabela 'pedido'
-        String sql = "UPDATE pedido SET id_cliente = ?, status = ?, valor_final = ? WHERE id_pedido = ?;";
+        String sql = "UPDATE pedido SET fk_id_usuario = ?, status = ?, valor_final = ? WHERE id_pedido = ?;";
         // Inicia um bloco 'try-with-resources' para garantir o fechamento automático do PreparedStatement
         try(PreparedStatement preparedStatement = conexaoPedido.prepareStatement(sql)){
             preparedStatement.setInt(1, pedido.getCliente().getIdUsuario());
@@ -127,7 +127,7 @@ public class PedidoDao {
     // Método estático para excluir um pedido do banco de dados com base no ID do pedido fornecido.
     public static void excluirPedido(int id) throws SQLException{
          // Consulta SQL para excluir um pedido do banco de dados.
-        String sql = "DELETE FROM pedido WHERE id_cliente = ?;";
+        String sql = "DELETE FROM pedido WHERE fk_id_usuario = ?;";
         // Inicia um bloco 'try-with-resources' para garantir o fechamento automático do PreparedStatement
         try(PreparedStatement preparedStatement = conexaoPedido.prepareStatement(sql)){
             preparedStatement.setInt(1, id);// Define o ID do pedido no espaço reservado na consulta SQL.
@@ -140,7 +140,7 @@ public class PedidoDao {
     private static Pedido mapearResultSetParaPedido(ResultSet resultSet) throws SQLException, InputMismatchException, DadosInvalidosException{
        // Extrai os valores das colunas do ResultSet
         int id = resultSet.getInt("id_pedido");
-        int idCliente = resultSet.getInt("id_cliente");
+        int idCliente = resultSet.getInt("fk_id_usuario");
         int status = resultSet.getInt("status");
         double valorFinal = resultSet.getDouble("valor_final");
          // Obtém o objeto cliente associado ao pedido utilizando o método buscarUsuarioPorId da classe UsuarioDao

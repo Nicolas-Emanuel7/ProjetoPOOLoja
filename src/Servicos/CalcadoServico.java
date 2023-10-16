@@ -19,7 +19,7 @@ public class CalcadoServico {
         }
     }
     // Método para adicionar tamanhos disponíveis para um calçado no estoque
-    public void addTamanhosDoCalcado(int idCalcado, int tamanho, int quantidade, int tamanhosQuantidade) throws SQLException{
+    public void addTamanhosDoCalcado(int idCalcado, int tamanho, int quantidade, int tamanhosQuantidade) throws SQLException, DadosInvalidosException{
         try{ //Cria um novo objeto Estoque com os dados fornecidos
             Estoque tamanhoDisponivel = new Estoque(idCalcado, tamanho, quantidade);
             System.out.println(">>>Estoque recebido com sucesso");
@@ -51,7 +51,7 @@ public class CalcadoServico {
         }
     }
     // Método para aumentar a quantidade de um determinado calçado no estoque
-    public void aumentarEstoque(int idBusca, int tamanho, int novoEstoque, int quantidadeTamanhos) throws SQLException{
+    public void aumentarEstoque(int idBusca, int tamanho, int novoEstoque, int quantidadeTamanhos) throws SQLException, DadosInvalidosException{
         try{  // Busca o estoque do calçado no banco de dados pelo ID e tamanho
             Estoque calcadoAumentarEstoque = EstoqueDao.buscarEstoqueEspecifico(idBusca, tamanho);
             if(calcadoAumentarEstoque != null){ // se achar ele, atualiza a quantidade disponível no estoque

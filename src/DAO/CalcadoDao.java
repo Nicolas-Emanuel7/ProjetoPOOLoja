@@ -14,7 +14,7 @@ public class CalcadoDao {
     // Método para inserir um objeto Calcado no banco de dados
     public static void inserirCalcado(Calcado calcado) throws SQLException{
          // String SQL para inserir dados na tabela 'calcado'
-        String sql = "INSERT INTO calcado (id_gerente, tipo_calcado, modelo_calcado, preco) VALUES (?, ?, ?, ?);";
+        String sql = "INSERT INTO calcado (fk_id_usuario, tipo_calcado, modelo_calcado, preco) VALUES (?, ?, ?, ?);";
 
         // Inicia um bloco 'try' para manipular possíveis exceções do SQL
         try(PreparedStatement preparedStatement = conexaoCalcado.prepareStatement(sql)){ 
@@ -111,7 +111,7 @@ public class CalcadoDao {
     // Método estático para atualizar um objeto Calcado no banco de dados
     public static void atualizarCalcado(Calcado calcado, int idGerente) throws SQLException{
          // Consulta SQL para atualizar os dados do calçado na tabela 'calcado'
-        String sql = "UPDATE calcado SET id_gerente = ?, tipo_calcado = ?, modelo_calcado = ?, preco = ? WHERE id_calcado = ?;";
+        String sql = "UPDATE calcado SET fk_id_usuario = ?, tipo_calcado = ?, modelo_calcado = ?, preco = ? WHERE id_calcado = ?;";
         // Inicia um bloco 'try-with-resources' para garantir o fechamento automático do PreparedStatement
         try(PreparedStatement preparedStatement = conexaoCalcado.prepareStatement(sql)){
             preparedStatement.setInt(1, idGerente);// Define o novo ID do gerente
@@ -146,7 +146,7 @@ public class CalcadoDao {
     public static Calcado mapearResultSetParaCalcado(ResultSet resultSet) throws SQLException{
          // Extrai os valores das colunas do ResultSet
         int idCalcado = resultSet.getInt("id_calcado"); 
-        int idGerente = resultSet.getInt("id_gerente");
+        int idGerente = resultSet.getInt("fk_id_usuario");
         int tipoCalcado = resultSet.getInt("tipo_calcado");
         String modeloCalcado = resultSet.getString("modelo_calcado");
         double preco = resultSet.getDouble("preco");
