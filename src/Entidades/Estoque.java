@@ -23,6 +23,7 @@ public class Estoque { // Atributos da classe Estoque
         if(quantidadeEstoque < 0){ // Lança exceção se a quantidade for inválida
             throw new DadosInvalidosException(">>>Quantidade inválida.");
         }
+        this.idCalcado = idCalcado;
         this.tamanhoDisponivel = tamanhoDisponivel;
         this.quantidadeEstoque = quantidadeEstoque;
     }
